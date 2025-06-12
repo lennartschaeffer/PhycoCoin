@@ -1,0 +1,387 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 20px 0;
+    position: relative;
+    z-index: 100;
+}
+
+.nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #1e3a5f;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #1e3a5f;
+}
+
+.login-btn {
+    background: #1e3a5f;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(30, 58, 95, 0.2);
+}
+
+.login-btn:hover {
+    background: #2c4a6b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(30, 58, 95, 0.3);
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 80px 0 120px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(2deg); }
+}
+
+.hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 80px;
+    align-items: center;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #1e3a5f;
+    line-height: 1.2;
+    margin-bottom: 30px;
+    animation: slideInLeft 1s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    color: #495057;
+    margin-bottom: 40px;
+    animation: slideInLeft 1s ease-out 0.2s both;
+}
+
+.cta-btn {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2c4a6b 100%);
+    color: white;
+    padding: 18px 36px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(30, 58, 95, 0.3);
+    animation: slideInLeft 1s ease-out 0.4s both;
+}
+
+.cta-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(30, 58, 95, 0.4);
+}
+
+/* Coin */
+.coin-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.coin-image {
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+    animation: coinFloat 3s ease-in-out infinite, coinGlow 2s ease-in-out infinite alternate;
+    filter: drop-shadow(0 20px 40px rgba(255, 215, 0, 0.3));
+}
+
+@keyframes coinFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes coinGlow {
+    0% { filter: drop-shadow(0 20px 40px rgba(255, 215, 0, 0.3)); }
+    100% { filter: drop-shadow(0 25px 50px rgba(255, 215, 0, 0.5)); }
+}
+
+/* Second Section */
+.second-section {
+  /* gradient overlay on top of the photo */
+  background:
+    linear-gradient(135deg, #1e3a5f 0%, #2c5a7a 100%),
+    url("/frontend/image/kelp-forest.png") no-repeat bottom center;
+  background-size: cover;
+  padding: 150px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.second-container {
+  position: relative;
+  z-index: 1; /* ensure text sits above the photo */
+}
+
+
+@keyframes wave {
+    0% { background-position-x: 0; }
+    100% { background-position-x: 1200px; }
+}
+
+.kelp-forest {
+    position: absolute;
+    bottom: 0;
+    right: 10%;
+    width: 300px;
+    height: 400px;
+    pointer-events: none;
+}
+
+.kelp-strand {
+    position: absolute;
+    bottom: 0;
+    width: 40px;
+    background: linear-gradient(to top, #2d5016, #4a7c23, #6b9b3c);
+    border-radius: 20px 20px 50% 50%;
+    animation: sway 4s ease-in-out infinite;
+    transform-origin: bottom center;
+}
+
+.kelp-strand:nth-child(1) {
+    left: 0;
+    height: 350px;
+    animation-delay: 0s;
+}
+
+.kelp-strand:nth-child(2) {
+    left: 60px;
+    height: 300px;
+    animation-delay: -1s;
+}
+
+.kelp-strand:nth-child(3) {
+    left: 120px;
+    height: 380px;
+    animation-delay: -2s;
+}
+
+.kelp-strand:nth-child(4) {
+    left: 180px;
+    height: 320px;
+    animation-delay: -1.5s;
+}
+
+.kelp-strand:nth-child(5) {
+    left: 240px;
+    height: 360px;
+    animation-delay: -0.5s;
+}
+
+@keyframes sway {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+}
+
+.kelp-leaf {
+    position: absolute;
+    width: 25px;
+    height: 35px;
+    background: #4a7c23;
+    border-radius: 50% 50% 50% 50%;
+    animation: leafFloat 3s ease-in-out infinite;
+}
+
+.kelp-strand:nth-child(1) .kelp-leaf:nth-child(1) { top: 20%; left: -5px; animation-delay: 0s; }
+.kelp-strand:nth-child(1) .kelp-leaf:nth-child(2) { top: 40%; right: -5px; animation-delay: -1s; }
+.kelp-strand:nth-child(1) .kelp-leaf:nth-child(3) { top: 60%; left: -3px; animation-delay: -2s; }
+
+.kelp-strand:nth-child(2) .kelp-leaf:nth-child(1) { top: 25%; right: -4px; animation-delay: -0.5s; }
+.kelp-strand:nth-child(2) .kelp-leaf:nth-child(2) { top: 55%; left: -4px; animation-delay: -1.5s; }
+
+.kelp-strand:nth-child(3) .kelp-leaf:nth-child(1) { top: 15%; left: -6px; animation-delay: -0.3s; }
+.kelp-strand:nth-child(3) .kelp-leaf:nth-child(2) { top: 35%; right: -6px; animation-delay: -1.3s; }
+.kelp-strand:nth-child(3) .kelp-leaf:nth-child(3) { top: 65%; left: -4px; animation-delay: -2.3s; }
+
+.kelp-strand:nth-child(4) .kelp-leaf:nth-child(1) { top: 30%; right: -5px; animation-delay: -0.8s; }
+.kelp-strand:nth-child(4) .kelp-leaf:nth-child(2) { top: 60%; left: -5px; animation-delay: -1.8s; }
+
+.kelp-strand:nth-child(5) .kelp-leaf:nth-child(1) { top: 20%; left: -4px; animation-delay: -0.2s; }
+.kelp-strand:nth-child(5) .kelp-leaf:nth-child(2) { top: 45%; right: -4px; animation-delay: -1.2s; }
+.kelp-strand:nth-child(5) .kelp-leaf:nth-child(3) { top: 70%; left: -6px; animation-delay: -2.2s; }
+
+@keyframes leafFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(5deg); }
+}
+
+.second-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 10;
+}
+
+.second-section h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 30px;
+    max-width: 600px;
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-links {
+        gap: 20px;
+    }
+
+    .hero-container {
+        grid-template-columns: 1fr;
+        gap: 50px;
+        text-align: center;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .coin-image {
+        width: 250px;
+        height: 250px;
+    }
+
+    .second-section h2 {
+        font-size: 2.2rem;
+    }
+
+    .kelp-forest {
+        width: 200px;
+        height: 300px;
+    }
+
+    .kelp-strand {
+        width: 25px;
+    }
+
+    .kelp-strand:nth-child(1) { height: 250px; }
+    .kelp-strand:nth-child(2) { height: 200px; }
+    .kelp-strand:nth-child(3) { height: 280px; }
+    .kelp-strand:nth-child(4) { height: 220px; }
+    .kelp-strand:nth-child(5) { height: 260px; }
+}
+
+@media (max-width: 480px) {
+    .nav {
+        padding: 0 15px;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+    }
+
+    .nav-links a {
+        font-size: 0.9rem;
+    }
+
+    .login-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .coin-image {
+        width: 200px;
+        height: 200px;
+    }
+
+    .second-section h2 {
+        font-size: 1.8rem;
+    }
+}
