@@ -270,7 +270,9 @@ export default function MarketplaceOverview() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
-              <h1 className="text-xl sm:text-2xl font-bold text-slate-800">KelpCoins</h1>
+              <Link href="/" className="text-xl sm:text-2xl font-bold text-slate-800 no-underline">
+                KelpCoins
+              </Link>
               <span className="text-sm text-gray-500 hidden sm:inline">Marketplace</span>
             </div>
 
@@ -493,9 +495,6 @@ export default function MarketplaceOverview() {
                             </span>
                           </div>
                         </div>
-                        <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-800">
-                          View Impact
-                        </Button>
                       </div>
                     ))}
                   </div>
@@ -533,9 +532,6 @@ export default function MarketplaceOverview() {
                             </span>
                           </div>
                         </div>
-                        <Button variant="ghost" size="sm" className="text-green-600 hover:text-green-800">
-                          View Farm
-                        </Button>
                       </div>
                     ))}
                   </div>
@@ -681,7 +677,7 @@ export default function MarketplaceOverview() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-green-800 mb-4">Join the KelpCoin Community</h2>
           <p className="text-lg text-green-700 max-w-2xl mx-auto mb-8">
-            Whether you're a seaweed farmer or a business looking to offset your carbon footprint, KelpCoins connects
+            Whether you&apos;re a seaweed farmer or a business looking to offset your carbon footprint, KelpCoins connects
             you to a sustainable, local carbon marketplace.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">

@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export default function Hero() {
   return (
@@ -18,12 +19,14 @@ export default function Hero() {
               removal.
             </p>
             <div className="animate-slide-in-left-delay-2">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white px-6 md:px-9 py-4 md:py-5 rounded-full text-base md:text-lg font-semibold shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto"
-              >
-                View the marketplace
-              </Button>
+              <Link href="/marketplace">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white px-6 md:px-9 py-4 md:py-5 rounded-full text-base md:text-lg font-semibold shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto"
+                >
+                  View the marketplace
+                </Button>
+              </Link>
             </div>
           </div>
 
