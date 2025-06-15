@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { LogOut, Coins, Leaf, ShoppingCart, MapPin, Calendar, User, QrCode, TrendingUp, Handshake } from "lucide-react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 interface HarvestData {
   harvestId: string
@@ -57,6 +58,7 @@ interface Harvest {
   co2Removed: number
   nitrogenRemoved: number
   phosphorusRemoved: number
+  total_usd: number
 }
 
 interface Offset {
@@ -80,6 +82,7 @@ interface BarterOffer {
 }
 
 export default function BusinessDashboard() {
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState("marketplace")
   const [harvests, setHarvests] = useState<Harvest[]>([])
   const [loading, setLoading] = useState(true)
@@ -162,7 +165,8 @@ export default function BusinessDashboard() {
           kelpCoins: Math.round(harvest.validationResult.total_usd), // Using total USD value as KelpCoins
           co2Removed: harvest.validationResult.nutrientRemovals.C_kg * 2.2, // Converting lbs to kg
           nitrogenRemoved: harvest.validationResult.nutrientRemovals.N_kg * 2.2,
-          phosphorusRemoved: harvest.validationResult.nutrientRemovals.P_kg * 2.2
+          phosphorusRemoved: harvest.validationResult.nutrientRemovals.P_kg * 2.2,
+          total_usd: harvest.validationResult.total_usd
         }))
 
         setHarvests(transformedHarvests)
@@ -323,7 +327,11 @@ export default function BusinessDashboard() {
                       </div>
 
                       <div className="flex space-x-2">
-                        <Button className="flex-1 bg-slate-800 hover:bg-slate-700 text-white w-100">Buy</Button>
+                        <Button className="flex-1 bg-slate-800 hover:bg-slate-700 text-white w-100"
+                          onClick={() => {
+                            router.push('http://localhost:3000?total=' + harvest.total_usd)
+                          }}
+                        >Buy</Button>
                       </div>
                     </CardContent>
                   </Card>
