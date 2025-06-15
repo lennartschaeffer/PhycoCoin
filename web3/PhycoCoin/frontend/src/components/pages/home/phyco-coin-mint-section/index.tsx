@@ -68,7 +68,7 @@ export default function PhycoCoinMintSection() {
           );
 
           alert(
-            `Successfully minted ${mintAmount} PHYC to ${walletAddress} (Tx: ${receipt.hash.slice(
+            `Successfully sent ${mintAmount} PHYC to ${walletAddress} (Tx: ${receipt.hash.slice(
               0,
               6
             )}...${receipt.hash.slice(-4)})`
@@ -94,7 +94,7 @@ export default function PhycoCoinMintSection() {
   return (
     <div className={styles.mintSection}>
       <div className={styles.mintSectionInner}>
-        <h2 className={styles.heading}>Mint PhycoCoins</h2>
+        <h2 className={styles.heading}>Send PhycoCoins</h2>
 
         <hr className={styles.divider} />
 
@@ -106,6 +106,10 @@ export default function PhycoCoinMintSection() {
             onMint();
           }}
         >
+          <h4>Payment Amount</h4>
+          <p>{mintAmount ? mintAmount : "0"} PHYC</p>
+          <br />
+          <div className={styles.inputGroup}></div>
           <button
             className={styles.btn}
             disabled={
@@ -113,7 +117,7 @@ export default function PhycoCoinMintSection() {
             }
             type="submit"
           >
-            Mint
+            <strong>Send</strong>
           </button>
         </form>
 

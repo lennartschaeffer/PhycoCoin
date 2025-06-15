@@ -1,67 +1,124 @@
 .infoSection {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
 }
 
 .infoSectionInner {
-    display: flex;
-    padding: 32px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    border-radius: 24px;
-    background: linear-gradient(0deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.10) 100%), #0C0C0C;
-    width: 100%;
+  display: flex;
+  padding: 32px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-radius: 24px;
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.1) 100%
+    ),
+    #0c0c0c;
+  width: 100%;
 }
 
 .infoSectionInner .heading {
-    color: #B490FF;
-    font-size: 25px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 36px;
-    width: 100%;
+  color: #b490ff;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 36px;
+  width: 100%;
+}
+
+.infoSectionInner .subheading {
+  color: #85e0a3;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  width: 100%;
+  margin-top: 16px;
+  margin-bottom: 8px;
 }
 
 .infoSectionInner .divider {
-    width: 100%;
-    height: 1px;
-    border: none;
-    outline: none;
-    background-color: rgba(255, 255, 255, 0.08);
-    margin: 12px 0;
+  width: 100%;
+  height: 1px;
+  border: none;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.08);
+  margin: 12px 0;
+}
+
+.mainInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.infoSectionInner .text {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
 }
 
 .infoSectionInner .list {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 12px
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 12px;
 }
 
 .infoSectionInner .listItem {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.2s ease-in-out;
+}
+
+.infoSectionInner .listItem:hover {
+  background-color: rgba(255, 255, 255, 0.07);
 }
 
 .infoSectionInner .listItem .heading {
-    color: #ffffff;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 28px;
+  color: #ffffff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px;
+}
+
+.infoSectionInner .listItem .featureHeading {
+  color: #85e0a3;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px;
+  margin: 0 0 8px 0;
 }
 
 .infoSectionInner .listItem .text {
-    margin-top: 4px;
-    color: rgba(255, 255, 255, 0.76);
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 24px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  margin: 0;
+}
+
+.ctaSection {
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: rgba(180, 144, 255, 0.15);
+  width: 100%;
 }

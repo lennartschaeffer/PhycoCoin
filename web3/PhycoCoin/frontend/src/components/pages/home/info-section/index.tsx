@@ -1,61 +1,58 @@
 import styles from "./styles.module.css";
 
 export default function InfoSection() {
-    return (
-        <div className={styles.infoSection}>
-            <div className={styles.infoSectionInner}>
-                <h2 className={styles.heading}>
-                    Important Information for Developers
-                </h2>
+  return (
+    <div className={styles.infoSection}>
+      <div className={styles.infoSectionInner}>
+        <h2 className={styles.heading}>About PhycoCoin</h2>
 
-                <hr className={styles.divider} />
+        <hr className={styles.divider} />
 
-                <ul className={styles.list}>
-                    {/** Blockchain running */}
-                    <li className={styles.listItem}>
-                        <h3 className={styles.heading}>
-                            1. Local test blockchain
-                        </h3>
-
-                        <p className={styles.text}>
-                            A local test blockchain is running, accessible at HTTP-RPC endpoint <u>http://localhost:8545</u>.
-                        </p>
-                    </li>
-
-                    {/** Frontend running */}
-                    <li className={styles.listItem}>
-                        <h3 className={styles.heading}>
-                            2. Local test frontend server
-                        </h3>
-
-                        <p className={styles.text}>
-                            A local test frontend server is running, accessible at <u>http://localhost:3000</u> (you&apos;re seeing this right now).
-                        </p>
-                    </li>
-
-                    {/** Modify Frontend */}
-                    <li className={styles.listItem}>
-                        <h3 className={styles.heading}>
-                            3. Modifying frontend
-                        </h3>
-
-                        <p className={styles.text}>
-                            To start modifying the frontend, edit <code>./frontend/src/pages/index.tsx</code>.
-                        </p>
-                    </li>
-
-                    {/** Modify Smart contracts */}
-                    <li className={styles.listItem}>
-                        <h3 className={styles.heading}>
-                            4. Modifying smart contracts
-                        </h3>
-
-                        <p className={styles.text}>
-                            To start modifying the smart contracts, add your contracts in <code>./smart-contracts/contracts</code>, and update the deploy scripts in <code>./smart-contracts/scripts</code>.
-                        </p>
-                    </li>
-                </ul>
-            </div>
+        <div className={styles.mainInfo}>
+          <p className={styles.text}>
+            PhycoCoin is a specialized cryptocurrency designed for seaweed
+            farmers, based on Nutrient Trading Credits (NTC). This platform
+            allows seaweed farmers to convert their environmental benefits into
+            tradable digital assets.
+          </p>
         </div>
-    )
+
+        <h3 className={styles.subheading}>How It Works</h3>
+
+        <ul className={styles.list}>
+          <li className={styles.listItem}>
+            <h4 className={styles.featureHeading}>Seaweed Cultivation</h4>
+            <p className={styles.text}>
+              Farmers grow seaweed that naturally absorbs nitrogen, phosphorus,
+              and carbon dioxide from ocean waters.
+            </p>
+          </li>
+
+          <li className={styles.listItem}>
+            <h4 className={styles.featureHeading}>Nutrient Measurement</h4>
+            <p className={styles.text}>
+              The nutrients removed are measured and verified through our
+              monitoring system.
+            </p>
+          </li>
+
+          <li className={styles.listItem}>
+            <h4 className={styles.featureHeading}>NTC Conversion</h4>
+            <p className={styles.text}>
+              Verified nutrient removal is converted into PhycoCoins at a
+              standardized rate.
+            </p>
+          </li>
+
+          <li className={styles.listItem}>
+            <h4 className={styles.featureHeading}>Send & Trade</h4>
+            <p className={styles.text}>
+              Use this platform to send PhycoCoins to other users or exchange
+              them in our marketplace.
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
 }
