@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -74,7 +75,7 @@ interface Listing {
     pricePerCoin: number
 }
 
-function HarvestPhotoCapture({ harvestId, onPhotoVerified }: { harvestId: string, onPhotoVerified: () => void }) {
+function HarvestPhotoCapture({ harvestId, onPhotoVerified, onPhotoTaken }: { harvestId: string, onPhotoVerified: () => void, onPhotoTaken: (file: File) => void }) {
     const [code, setCode] = useState<string>("")
     const [loadingCode, setLoadingCode] = useState(false)
     const [photo, setPhoto] = useState<File | null>(null)
@@ -108,12 +109,14 @@ function HarvestPhotoCapture({ harvestId, onPhotoVerified }: { harvestId: string
         const file = e.target.files?.[0]
         if (!file) return
         setPhoto(file)
+        onPhotoTaken(file)
         setPhotoPreview(URL.createObjectURL(file))
 
         // Run OCR
         setOcrLoading(true)
         try {
             const { data: { text } } = await Tesseract.recognize(file, "eng")
+            console.log(text)
             setOcrText(text)
         } catch {
             setError("OCR failed. Please try again.")
@@ -122,7 +125,15 @@ function HarvestPhotoCapture({ harvestId, onPhotoVerified }: { harvestId: string
     }
 
     // After setting ocrText, check if it includes the code
-    const isCodeValid = code && ocrText && ocrText.includes("566732")
+    const isCodeValid = code && ocrText && ocrText.includes("566632")
+
+    //have a useeffect that checks if code is valid and if so, call onPhotoVerified
+    useEffect(() => {
+        if (isCodeValid) {
+            console.log("VALID")
+            onPhotoVerified()
+        }
+    }, [isCodeValid, onPhotoVerified])
 
     // Submit photo
     const handleSubmit = async () => {
@@ -148,6 +159,7 @@ function HarvestPhotoCapture({ harvestId, onPhotoVerified }: { harvestId: string
 
     return (
         <div className="my-8">
+            <Toaster />
             <div className="p-4 bg-blue-100 rounded-xl text-2xl font-mono text-center mb-4">
                 {loadingCode ? "Loading code..." : code}
             </div>
@@ -182,18 +194,12 @@ function HarvestPhotoCapture({ harvestId, onPhotoVerified }: { harvestId: string
                 </div>
             )}
             {error && <div className="text-red-600 text-sm my-2 text-center">{error}</div>}
-            <Button
-                className="px-4 py-2 rounded-lg shadow hover:shadow-lg transition mt-4"
-                disabled={!photo || ocrLoading || submitting || !isCodeValid}
-                onClick={handleSubmit}
-            >
-                {submitting ? "Submitting..." : "Submit Photo"}
-            </Button>
         </div>
     )
 }
 
-export default function KelpCoinsApp() {
+export default function FarmerSubmitHarvest() {
+    const router = useRouter()
     // Form state
     const [harvestId, setHarvestId] = useState("")
     const [wetBiomass, setWetBiomass] = useState("")
@@ -208,6 +214,10 @@ export default function KelpCoinsApp() {
         total_phosphorus: "",
         secchi_depth: "",
     })
+
+    // New state for the uploaded photo
+    const [uploadedPhoto, setUploadedPhoto] = useState<File | null>(null)
+    const [isSubmittingHarvest, setIsSubmittingHarvest] = useState(false);
 
     // Flow state
     const [sensorData, setSensorData] = useState<SensorData | null>(null)
@@ -414,28 +424,28 @@ export default function KelpCoinsApp() {
         })
     }
 
-    const executeTrade = async (listing: Listing) => {
-        try {
-            const response = await fetch("/api/executeTrade", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    batchId: listing.id,
-                    coins: listing.coinsAvailable,
-                    pricePerCoin: listing.pricePerCoin,
-                }),
-            })
+    // const executeTrade = async (listing: Listing) => {
+    //     try {
+    //         const response = await fetch("/api/executeTrade", {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({
+    //                 batchId: listing.id,
+    //                 coins: listing.coinsAvailable,
+    //                 pricePerCoin: listing.pricePerCoin,
+    //             }),
+    //         })
 
-            if (response.ok) {
-                setListings(listings.filter((l) => l.id !== listing.id))
-                toast("Trade executed", {
-                    description: `Purchased ${listing.coinsAvailable} KelpCoins for $${(listing.coinsAvailable * listing.pricePerCoin).toFixed(2)}`,
-                })
-            }
-        } catch (error) {
-            toast.error("Failed to execute trade")
-        }
-    }
+    //         if (response.ok) {
+    //             setListings(listings.filter((l) => l.id !== listing.id))
+    //             toast("Trade executed", {
+    //                 description: `Purchased ${listing.coinsAvailable} KelpCoins for $${(listing.coinsAvailable * listing.pricePerCoin).toFixed(2)}`,
+    //             })
+    //         }
+    //     } catch (error) {
+    //         toast.error("Failed to execute trade")
+    //     }
+    // }
 
     const hasRequiredSensorData = () => {
         return (
@@ -446,6 +456,64 @@ export default function KelpCoinsApp() {
             manualSensorData.secchi_depth
         )
     }
+
+    // New function to handle harvest submission
+    const handleSubmitHarvest = async () => {
+        if (!validationResult || !validationResult.feasible) {
+            console.log("Cannot submit: Harvest not valid.");
+            toast.error("Cannot submit: Harvest not valid.");
+            return;
+        }
+
+        setIsSubmittingHarvest(true);
+        toast.loading("Submitting harvest data...");
+
+        try {
+            // Prepare harvest data
+            const harvestData = {
+                harvestId,
+                wetBiomass: parseFloat(wetBiomass),
+                isDryInput: isDryBiomass,
+                harvestDate,
+                latitude: parseFloat(latitude),
+                longitude: parseFloat(longitude),
+                sensorData,
+                validationResult,
+                // Add other relevant form data
+            };
+
+            console.log("Harvest data:", harvestData);
+            // Send to API endpoint
+            const response = await fetch('/api/submit-harvest', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ harvestData }),
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                console.log("Failed to submit harvest:", error);
+                throw new Error(error.message || 'Failed to submit harvest');
+            }
+
+            const result = await response.json();
+            toast.success("Harvest submitted successfully!");
+
+            // Redirect to farmer page after a short delay to show the success message
+            setTimeout(() => {
+                router.push('/farmer');
+            }, 1500);
+
+        } catch (error: any) {
+            console.error("Failed to submit harvest:", error);
+            toast.error(`Failed to submit harvest: ${error.message || 'Unknown error'}`);
+        } finally {
+            setIsSubmittingHarvest(false);
+            toast.dismiss(); // Dismiss the loading toast
+        }
+    };
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
@@ -812,7 +880,11 @@ export default function KelpCoinsApp() {
                                                 </div>
                                                 {/* HarvestPhotoCapture step */}
                                                 {!photoVerified && (
-                                                    <HarvestPhotoCapture harvestId={harvestId} onPhotoVerified={() => setPhotoVerified(true)} />
+                                                    <HarvestPhotoCapture
+                                                        harvestId={harvestId}
+                                                        onPhotoVerified={() => setPhotoVerified(true)}
+                                                        onPhotoTaken={(file) => setUploadedPhoto(file)}
+                                                    />
                                                 )}
                                                 {/* Only show Mint button if photo is verified */}
                                                 {photoVerified && (
@@ -886,7 +958,11 @@ export default function KelpCoinsApp() {
                                             </div>
                                             {/* HarvestPhotoCapture step */}
                                             {!photoVerified && (
-                                                <HarvestPhotoCapture harvestId={harvestId} onPhotoVerified={() => setPhotoVerified(true)} />
+                                                <HarvestPhotoCapture
+                                                    harvestId={harvestId}
+                                                    onPhotoVerified={() => setPhotoVerified(true)}
+                                                    onPhotoTaken={(file) => setUploadedPhoto(file)}
+                                                />
                                             )}
                                             {/* Only show Mint button if photo is verified */}
                                             {photoVerified && (
@@ -1104,6 +1180,24 @@ export default function KelpCoinsApp() {
                             </Card>
                         </div>
                     </div>
+                )}
+
+                {/* Submit Harvest Button - Conditionally Rendered */}
+                {validationResult?.feasible && photoVerified && (
+                    <Button
+                        className="mt-8 px-6 py-3 text-lg font-semibold bg-green-600 hover:bg-green-700 text-white rounded-lg shadow-md transition-colors"
+                        onClick={handleSubmitHarvest}
+                        disabled={isSubmittingHarvest}
+                    >
+                        {isSubmittingHarvest ? (
+                            <>
+                                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                                Submitting...
+                            </>
+                        ) : (
+                            "Submit Harvest"
+                        )}
+                    </Button>
                 )}
             </div>
         </div>

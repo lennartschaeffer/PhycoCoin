@@ -1,0 +1,80 @@
+[
+  {
+    "harvestId": "b26bcb0b-f86e-4d12-940c-0edf8ed07a1a",
+    "wetBiomass": 10000,
+    "isDryInput": false,
+    "harvestDate": "2025-06-22",
+    "latitude": 46.058919,
+    "longitude": -64.788984,
+    "sensorData": {
+      "water_temperature": 18.5,
+      "light_PAR": 350,
+      "inorganic_nitrogen": 1.2,
+      "total_phosphorus": 0.15,
+      "secchi_depth": 6.5
+    },
+    "validationResult": {
+      "carbon_lb": 330,
+      "feasible": true,
+      "input_type": "fresh",
+      "nitrogen_lb": 25,
+      "phosphorus_lb": 3,
+      "q95_chlorophyll": 291.88469213310253,
+      "q95_dry_biomass_lb": 5837.69384266205,
+      "ratio": 0.17130052156760409,
+      "reported_dry_biomass_lb": 1000,
+      "reported_input_biomass_lb": 10000,
+      "total_usd": 203.35000000000002,
+      "value_c_usd": 42.9,
+      "value_n_usd": 127,
+      "value_p_usd": 33.45,
+      "isValid": true,
+      "message": "✅ Plausible harvest! Your reported biomass is 17.1% of the maximum expected biomass.",
+      "nutrientRemovals": {
+        "N_kg": 11.3398,
+        "P_kg": 1.360776,
+        "C_kg": 149.68536
+      }
+    },
+    "submittedAt": "2025-06-15T21:03:02.576Z"
+  },
+  {
+    "harvestId": "12c3442c-acaf-48ab-aafe-d2149ed6d12a",
+    "wetBiomass": 10000,
+    "isDryInput": false,
+    "harvestDate": "2025-06-15",
+    "latitude": 46.058635,
+    "longitude": -64.789016,
+    "sensorData": {
+      "water_temperature": 18.5,
+      "light_PAR": 350,
+      "inorganic_nitrogen": 1.2,
+      "total_phosphorus": 0.15,
+      "secchi_depth": 6.5
+    },
+    "validationResult": {
+      "carbon_lb": 330,
+      "feasible": true,
+      "input_type": "fresh",
+      "nitrogen_lb": 25,
+      "phosphorus_lb": 3,
+      "q95_chlorophyll": 291.88469213310253,
+      "q95_dry_biomass_lb": 5837.69384266205,
+      "ratio": 0.17130052156760409,
+      "reported_dry_biomass_lb": 1000,
+      "reported_input_biomass_lb": 10000,
+      "total_usd": 203.35000000000002,
+      "value_c_usd": 42.9,
+      "value_n_usd": 127,
+      "value_p_usd": 33.45,
+      "isValid": true,
+      "message": "✅ Plausible harvest! Your reported biomass is 17.1% of the maximum expected biomass.",
+      "nutrientRemovals": {
+        "N_kg": 11.3398,
+        "P_kg": 1.360776,
+        "C_kg": 149.68536
+      }
+    },
+    "submittedAt": "2025-06-15T21:54:19.862Z"
+  }
+]

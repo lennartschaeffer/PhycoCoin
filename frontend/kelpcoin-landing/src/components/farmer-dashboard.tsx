@@ -24,7 +24,7 @@ export default function FarmerDashboard() {
     { id: "4", date: "03/28/2024", kelpMass: 2800, status: "Rejected" },
   ])
 
-  const totalKelpCoins = 1845
+  const totalPhycoCoins = 1845
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -47,7 +47,7 @@ export default function FarmerDashboard() {
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
               <Link href="/" className="text-xl sm:text-2xl font-bold text-slate-800 no-underline">
-                KelpCoins
+                PhycoCoins
               </Link>
               <span className="text-sm text-gray-500 hidden sm:inline">Farmer Dashboard</span>
             </div>
@@ -87,7 +87,7 @@ export default function FarmerDashboard() {
             <CardContent>
               <div className="space-y-4">
                 <p className="text-gray-600">
-                  Submit your kelp harvest for validation and earn KelpCoins for verified carbon removal.
+                  Submit your kelp harvest for validation and earn PhycoCoins for verified carbon removal.
                 </p>
                 <Link href="/farmer/farmer-submit-harvest">
                   <Button className="w-full bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-md text-lg font-semibold flex items-center justify-center gap-2">
@@ -99,17 +99,17 @@ export default function FarmerDashboard() {
             </CardContent>
           </Card>
 
-          {/* KelpCoin Earnings Card */}
+          {/* PhycoCoin Earnings Card */}
           <Card className="shadow-sm bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200">
             <CardHeader>
               <CardTitle className="text-xl sm:text-2xl text-slate-800 flex items-center">
                 <Coins className="w-6 h-6 mr-2 text-yellow-600" />
-                My KelpCoin Earnings
+                My PhycoCoin Earnings
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-800 mb-2">
-                {totalKelpCoins.toLocaleString()} KelpCoins
+                {totalPhycoCoins.toLocaleString()} PhycoCoins
               </div>
               <p className="text-gray-600 text-sm sm:text-base">Earned from verified CO₂ removal</p>
             </CardContent>
@@ -173,7 +173,7 @@ export default function FarmerDashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-lg font-semibold mb-4">KelpCoins</h3>
+              <h3 className="text-lg font-semibold mb-4">PhycoCoins</h3>
               <p className="text-gray-300 text-sm">
                 A micro carbon marketplace connecting seaweed farmers with local businesses for verified carbon removal.
               </p>
@@ -183,7 +183,7 @@ export default function FarmerDashboard() {
               <ul className="space-y-2 text-sm">
                 <li>
                   <Link href="/about" className="text-gray-300 hover:text-white">
-                    About KelpCoins
+                    About PhycoCoins
                   </Link>
                 </li>
                 <li>
@@ -223,7 +223,7 @@ export default function FarmerDashboard() {
                   </svg>
                 </Link>
               </div>
-              <p className="mt-4 text-sm text-gray-300">© {new Date().getFullYear()} KelpCoins. All rights reserved.</p>
+              <p className="mt-4 text-sm text-gray-300">© {new Date().getFullYear()} PhycoCoins. All rights reserved.</p>
             </div>
           </div>
         </div>

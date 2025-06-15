@@ -1,12 +1,50 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { LogOut, Coins, Leaf, ShoppingCart, MapPin, Calendar, User, QrCode, TrendingUp, Handshake } from "lucide-react"
 import Link from "next/link"
+
+interface HarvestData {
+  harvestId: string
+  wetBiomass: number
+  isDryInput: boolean
+  harvestDate: string
+  latitude: number
+  longitude: number
+  sensorData: {
+    water_temperature: number
+    light_PAR: number
+    inorganic_nitrogen: number
+    total_phosphorus: number
+    secchi_depth: number
+  }
+  validationResult: {
+    feasible: boolean
+    q95_chlorophyll: number
+    q95_dry_biomass_lb: number
+    reported_input_biomass_lb: number
+    input_type: string
+    reported_dry_biomass_lb: number
+    ratio: number
+    carbon_lb: number
+    nitrogen_lb: number
+    phosphorus_lb: number
+    value_c_usd: number
+    value_n_usd: number
+    value_p_usd: number
+    total_usd: number
+    nutrientRemovals: {
+      "N_kg": number
+      "P_kg": number
+      "C_kg": number
+    }
+  }
+  submittedAt: string
+}
 
 interface Harvest {
   id: string
@@ -17,6 +55,8 @@ interface Harvest {
   weight: number
   kelpCoins: number
   co2Removed: number
+  nitrogenRemoved: number
+  phosphorusRemoved: number
 }
 
 interface Offset {
@@ -41,6 +81,8 @@ interface BarterOffer {
 
 export default function BusinessDashboard() {
   const [activeTab, setActiveTab] = useState("marketplace")
+  const [harvests, setHarvests] = useState<Harvest[]>([])
+  const [loading, setLoading] = useState(true)
 
   // Mock data
   const businessStats = {
@@ -49,39 +91,6 @@ export default function BusinessDashboard() {
     availableKelpCoins: 8750,
     kelpCoinsBartered: 320,
   }
-
-  const availableHarvests: Harvest[] = [
-    {
-      id: "1",
-      farmerName: "Lucas Smith",
-      farmName: "Seaside Kelp Farm",
-      location: "Harborview Bay",
-      date: "2024-06-10",
-      weight: 1800,
-      kelpCoins: 180,
-      co2Removed: 1800,
-    },
-    {
-      id: "2",
-      farmerName: "Maria Rodriguez",
-      farmName: "Coastal Harvest Co.",
-      location: "Moonlight Cove",
-      date: "2024-06-09",
-      weight: 2300,
-      kelpCoins: 230,
-      co2Removed: 2300,
-    },
-    {
-      id: "3",
-      farmerName: "James Chen",
-      farmName: "Pacific Kelp Gardens",
-      location: "Sunset Point",
-      date: "2024-06-08",
-      weight: 1500,
-      kelpCoins: 150,
-      co2Removed: 1500,
-    },
-  ]
 
   const myOffsets: Offset[] = [
     {
@@ -134,6 +143,38 @@ export default function BusinessDashboard() {
       description: "Need boat engine maintenance service",
     },
   ]
+
+  useEffect(() => {
+    const fetchHarvests = async () => {
+      try {
+        const response = await fetch('/api/harvests')
+        if (!response.ok) throw new Error('Failed to fetch harvests')
+        const data: HarvestData[] = await response.json()
+
+        // Transform API data to match our display format
+        const transformedHarvests: Harvest[] = data.map(harvest => ({
+          id: harvest.harvestId,
+          farmerName: "Local Farmer", // Placeholder until we add farmer info
+          farmName: "Local Farm", // Placeholder until we add farm info
+          location: `${harvest.latitude.toFixed(4)}, ${harvest.longitude.toFixed(4)}`,
+          date: harvest.harvestDate,
+          weight: harvest.wetBiomass,
+          kelpCoins: Math.round(harvest.validationResult.total_usd), // Using total USD value as KelpCoins
+          co2Removed: harvest.validationResult.nutrientRemovals.C_kg * 2.2, // Converting lbs to kg
+          nitrogenRemoved: harvest.validationResult.nutrientRemovals.N_kg * 2.2,
+          phosphorusRemoved: harvest.validationResult.nutrientRemovals.P_kg * 2.2
+        }))
+
+        setHarvests(transformedHarvests)
+      } catch (error) {
+        console.error('Error fetching harvests:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchHarvests()
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -214,17 +255,6 @@ export default function BusinessDashboard() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">KelpCoins Bartered</p>
-                  <p className="text-2xl font-bold text-purple-600">{businessStats.kelpCoinsBartered}</p>
-                </div>
-                <Handshake className="w-8 h-8 text-purple-600" />
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
         {/* Tabs Section */}
@@ -240,57 +270,66 @@ export default function BusinessDashboard() {
           <TabsContent value="marketplace" className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold text-slate-800">Browse Verified Harvests</h2>
-              <p className="text-sm text-gray-600">{availableHarvests.length} harvests available</p>
+              <p className="text-sm text-gray-600">{harvests.length} harvests available</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {availableHarvests.map((harvest) => (
-                <Card key={harvest.id} className="hover:shadow-lg transition-shadow">
-                  <CardHeader className="pb-3">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h3 className="font-semibold text-slate-800 flex items-center">
-                          <User className="w-4 h-4 mr-2" />
-                          {harvest.farmerName}
-                        </h3>
-                        <p className="text-sm text-gray-600 flex items-center mt-1">
-                          <MapPin className="w-4 h-4 mr-1" />
-                          {harvest.farmName}, {harvest.location}
-                        </p>
+            {loading ? (
+              <div className="text-center py-8">Loading harvests...</div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {harvests.map((harvest) => (
+                  <Card key={harvest.id} className="hover:shadow-lg transition-shadow">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h3 className="font-semibold text-slate-800 flex items-center">
+                            <User className="w-4 h-4 mr-2" />
+                            {harvest.farmerName}
+                          </h3>
+                          <p className="text-sm text-gray-600 flex items-center mt-1">
+                            <MapPin className="w-4 h-4 mr-1" />
+                            {harvest.farmName}, {harvest.location}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex items-center text-sm text-gray-600">
-                      <Calendar className="w-4 h-4 mr-2" />
-                      {new Date(harvest.date).toLocaleDateString()}
-                    </div>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="flex items-center text-sm text-gray-600">
+                        <Calendar className="w-4 h-4 mr-2" />
+                        {new Date(harvest.date).toLocaleDateString()}
+                      </div>
 
-                    <div className="bg-gray-50 rounded-lg p-3 space-y-2">
-                      <div className="flex justify-between">
-                        <span className="text-sm text-gray-600">Weight:</span>
-                        <span className="font-medium">{harvest.weight.toLocaleString()} kg</span>
+                      <div className="bg-gray-50 rounded-lg p-3 space-y-2">
+                        <div className="flex justify-between">
+                          <span className="text-sm text-gray-600">Weight:</span>
+                          <span className="font-medium">{harvest.weight.toLocaleString()} lb</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-sm text-gray-600">KelpCoins:</span>
+                          <span className="font-medium text-yellow-600">{harvest.kelpCoins}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-sm text-gray-600">Carbon Removed:</span>
+                          <span className="font-medium text-green-600">{harvest.co2Removed.toLocaleString()} lb</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-sm text-gray-600">Nitrogen Removed:</span>
+                          <span className="font-medium text-green-600">{harvest.nitrogenRemoved.toLocaleString()} lb</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-sm text-gray-600">Phosphorus Removed:</span>
+                          <span className="font-medium text-green-600">{harvest.phosphorusRemoved.toLocaleString()} lb</span>
+                        </div>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-sm text-gray-600">KelpCoins:</span>
-                        <span className="font-medium text-yellow-600">{harvest.kelpCoins}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-sm text-gray-600">CO₂ Removed:</span>
-                        <span className="font-medium text-green-600">{harvest.co2Removed.toLocaleString()} kg</span>
-                      </div>
-                    </div>
 
-                    <div className="flex space-x-2">
-                      <Button className="flex-1 bg-slate-800 hover:bg-slate-700 text-white">Buy</Button>
-                      <Button variant="outline" className="flex-1">
-                        Barter
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                      <div className="flex space-x-2">
+                        <Button className="flex-1 bg-slate-800 hover:bg-slate-700 text-white w-100">Buy</Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
           </TabsContent>
 
           {/* My Offsets */}

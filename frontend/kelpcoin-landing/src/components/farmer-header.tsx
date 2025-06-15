@@ -12,7 +12,7 @@ export function FarmerHeader() {
                 <div className="flex justify-between items-center">
                     <div className="flex items-center space-x-4">
                         <Link href="/farmer" className="text-xl sm:text-2xl font-bold text-slate-800 no-underline">
-                            KelpCoins
+                            PhycoCoins
                         </Link>
                         <span className="text-sm text-gray-500 hidden sm:inline">Farmer Dashboard</span>
                     </div>
