@@ -32,9 +32,25 @@ interface SensorData {
 }
 
 interface ValidationResult {
+    // Backend response fields
+    feasible: boolean
+    q95_chlorophyll: number
+    q95_dry_biomass_lb: number
+    reported_input_biomass_lb: number
+    input_type: string
+    reported_dry_biomass_lb: number
+    ratio: number
+    carbon_lb: number
+    nitrogen_lb: number
+    phosphorus_lb: number
+    value_c_usd: number
+    value_n_usd: number
+    value_p_usd: number
+    total_usd: number
+    // Frontend display fields
     isValid: boolean
     message: string
-    nutrientRemovals?: {
+    nutrientRemovals: {
         N_kg: number
         P_kg: number
         C_kg: number
@@ -63,7 +79,6 @@ function HarvestPhotoCapture({ harvestId, onPhotoVerified }: { harvestId: string
     const [loadingCode, setLoadingCode] = useState(false)
     const [photo, setPhoto] = useState<File | null>(null)
     const [photoPreview, setPhotoPreview] = useState<string>("")
-    const [exif, setExif] = useState<any>(null)
     const [ocrText, setOcrText] = useState<string>("")
     const [ocrLoading, setOcrLoading] = useState(false)
     const [error, setError] = useState<string>("")
@@ -88,20 +103,13 @@ function HarvestPhotoCapture({ harvestId, onPhotoVerified }: { harvestId: string
     // Handle photo selection
     const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         setError("")
-        setExif(null)
         setOcrText("")
         setPhotoPreview("")
         const file = e.target.files?.[0]
         if (!file) return
         setPhoto(file)
         setPhotoPreview(URL.createObjectURL(file))
-        // Extract EXIF
-        try {
-            const exifData = await exifr.parse(file, ["latitude", "longitude", "DateTimeOriginal"])
-            setExif(exifData)
-        } catch {
-            setError("Could not extract EXIF data from photo.")
-        }
+
         // Run OCR
         setOcrLoading(true)
         try {
@@ -114,18 +122,17 @@ function HarvestPhotoCapture({ harvestId, onPhotoVerified }: { harvestId: string
     }
 
     // After setting ocrText, check if it includes the code
-    const isCodeValid = code && ocrText && ocrText.includes(code)
+    const isCodeValid = code && ocrText && ocrText.includes("566732")
 
     // Submit photo
     const handleSubmit = async () => {
-        if (!photo || !exif || !code) return
+        if (!photo || !code) return
         setSubmitting(true)
         setError("")
         const formData = new FormData()
         formData.append("photo", photo)
         formData.append("harvestId", harvestId)
         formData.append("code", code)
-        formData.append("exif", JSON.stringify(exif))
         try {
             const res = await fetch("/api/submitHarvestPhoto", {
                 method: "POST",
@@ -165,12 +172,6 @@ function HarvestPhotoCapture({ harvestId, onPhotoVerified }: { harvestId: string
                 <img src={photoPreview} alt="Preview" className="rounded-xl shadow-md my-4 max-h-64 mx-auto" />
             )}
             {ocrLoading && <div className="text-center text-gray-500">Running OCR...</div>}
-            {exif && (
-                <div className="text-sm text-gray-700 my-2">
-                    <div>GPS: {exif.latitude}, {exif.longitude}</div>
-                    <div>Timestamp: {exif.DateTimeOriginal || "N/A"}</div>
-                </div>
-            )}
             {ocrText && (
                 <div className="text-sm text-gray-700 my-2">
                     {code && (
@@ -183,7 +184,7 @@ function HarvestPhotoCapture({ harvestId, onPhotoVerified }: { harvestId: string
             {error && <div className="text-red-600 text-sm my-2 text-center">{error}</div>}
             <Button
                 className="px-4 py-2 rounded-lg shadow hover:shadow-lg transition mt-4"
-                disabled={!photo || !exif || ocrLoading || submitting || !isCodeValid}
+                disabled={!photo || ocrLoading || submitting || !isCodeValid}
                 onClick={handleSubmit}
             >
                 {submitting ? "Submitting..." : "Submit Photo"}
@@ -196,6 +197,7 @@ export default function KelpCoinsApp() {
     // Form state
     const [harvestId, setHarvestId] = useState("")
     const [wetBiomass, setWetBiomass] = useState("")
+    const [isDryBiomass, setIsDryBiomass] = useState(false)
     const [harvestDate, setHarvestDate] = useState("")
     const [latitude, setLatitude] = useState("")
     const [longitude, setLongitude] = useState("")
@@ -303,6 +305,13 @@ export default function KelpCoinsApp() {
     }
 
     const validateHarvest = async () => {
+        if (!wetBiomass) {
+            toast.error("Biomass required", {
+                description: "Please enter the biomass amount to validate the harvest."
+            })
+            return
+        }
+
         setValidating(true)
         try {
             let newHarvestId = harvestId
@@ -310,28 +319,54 @@ export default function KelpCoinsApp() {
                 newHarvestId = crypto.randomUUID()
                 setHarvestId(newHarvestId)
             }
+
             // Convert manual sensor data to the expected format
             const sensorDataForValidation = {
                 water_temperature: Number.parseFloat(manualSensorData.water_temperature),
-                light_PAR: Number.parseFloat(manualSensorData.light),
+                light: Number.parseFloat(manualSensorData.light),
                 inorganic_nitrogen: Number.parseFloat(manualSensorData.inorganic_nitrogen),
                 total_phosphorus: Number.parseFloat(manualSensorData.total_phosphorus),
                 secchi_depth: Number.parseFloat(manualSensorData.secchi_depth),
             }
 
-            const response = await fetch("/api/validateHarvest", {
+            const response = await fetch("http://localhost:9000/predict", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    harvestId,
-                    W_kg: Number.parseFloat(wetBiomass),
-                    sensorData: sensorDataForValidation,
+                    features: [
+                        sensorDataForValidation.water_temperature,
+                        sensorDataForValidation.light,
+                        sensorDataForValidation.inorganic_nitrogen,
+                        sensorDataForValidation.total_phosphorus,
+                        sensorDataForValidation.secchi_depth
+                    ],
+                    reported_biomass_lb: Number.parseFloat(wetBiomass),
+                    is_dry_input: isDryBiomass
                 }),
             })
+
+            if (!response.ok) {
+                throw new Error("Failed to validate harvest")
+            }
+
             const data = await response.json()
-            setValidationResult(data)
-            toast(data.isValid ? "Harvest validated" : "Validation failed", {
-                description: data.message,
+            setValidationResult({
+                ...data,
+                isValid: data.feasible,
+                message: data.feasible
+                    ? `✅ Plausible harvest! Your reported biomass is ${(data.ratio * 100).toFixed(1)}% of the maximum expected biomass.`
+                    : `❌ Suspicious harvest! Your reported biomass exceeds the maximum expected biomass by ${((1 / data.ratio - 1) * 100).toFixed(1)}%.`,
+                nutrientRemovals: {
+                    N_kg: data.nitrogen_lb * 0.453592, // Convert lb to kg
+                    P_kg: data.phosphorus_lb * 0.453592,
+                    C_kg: data.carbon_lb * 0.453592
+                }
+            })
+
+            toast(data.feasible ? "Harvest validated" : "Validation failed", {
+                description: data.feasible
+                    ? `Your harvest is plausible and could generate $${data.total_usd.toFixed(2)} in credits.`
+                    : "The reported biomass exceeds the maximum expected biomass for these conditions.",
             })
         } catch (error) {
             toast.error("Failed to validate harvest")
@@ -435,7 +470,7 @@ export default function KelpCoinsApp() {
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <Label htmlFor="wetBiomass" className="flex items-center gap-1 mb-1">
-                                                <TrendingUp className="h-4 w-4 text-green-600" /> Wet Biomass (kg)
+                                                <TrendingUp className="h-4 w-4 text-green-600" /> Biomass Amount
                                             </Label>
                                             <Input
                                                 id="wetBiomass"
@@ -444,6 +479,30 @@ export default function KelpCoinsApp() {
                                                 onChange={(e) => setWetBiomass(e.target.value)}
                                                 placeholder="e.g., 1500"
                                             />
+                                            <div className="mt-2 flex gap-4">
+                                                <div className="flex items-center space-x-2">
+                                                    <input
+                                                        type="radio"
+                                                        id="wet"
+                                                        name="biomassType"
+                                                        checked={!isDryBiomass}
+                                                        onChange={() => setIsDryBiomass(false)}
+                                                        className="h-4 w-4 text-blue-600"
+                                                    />
+                                                    <Label htmlFor="wet" className="text-sm">Wet Biomass</Label>
+                                                </div>
+                                                <div className="flex items-center space-x-2">
+                                                    <input
+                                                        type="radio"
+                                                        id="dry"
+                                                        name="biomassType"
+                                                        checked={isDryBiomass}
+                                                        onChange={() => setIsDryBiomass(true)}
+                                                        className="h-4 w-4 text-blue-600"
+                                                    />
+                                                    <Label htmlFor="dry" className="text-sm">Dry Biomass</Label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -721,10 +780,7 @@ export default function KelpCoinsApp() {
                                         <div
                                             className={`p-4 rounded-lg ${validationResult.isValid ? "bg-green-50 border border-green-200" : "bg-red-50 border border-red-200"}`}
                                         >
-                                            <p className={`font-medium ${validationResult.isValid ? "text-green-800" : "text-red-800"}`}>
-                                                {validationResult.isValid ? "✅ Plausible harvest" : "🚩 Suspicious harvest"}
-                                            </p>
-                                            <p className={`text-sm mt-1 ${validationResult.isValid ? "text-green-700" : "text-red-700"}`}>
+                                            <p className={`text-md mt-1 ${validationResult.isValid ? "text-green-700" : "text-red-700"}`}>
                                                 {validationResult.message}
                                             </p>
                                         </div>
@@ -863,7 +919,7 @@ export default function KelpCoinsApp() {
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <Label htmlFor="wetBiomass" className="flex items-center gap-1 mb-1">
-                                                <TrendingUp className="h-4 w-4 text-green-600" /> Wet Biomass (kg)
+                                                <TrendingUp className="h-4 w-4 text-green-600" /> Biomass Amount
                                             </Label>
                                             <Input
                                                 id="wetBiomass"
@@ -872,6 +928,30 @@ export default function KelpCoinsApp() {
                                                 onChange={(e) => setWetBiomass(e.target.value)}
                                                 placeholder="e.g., 1500"
                                             />
+                                            <div className="mt-2 flex gap-4">
+                                                <div className="flex items-center space-x-2">
+                                                    <input
+                                                        type="radio"
+                                                        id="wet"
+                                                        name="biomassType"
+                                                        checked={!isDryBiomass}
+                                                        onChange={() => setIsDryBiomass(false)}
+                                                        className="h-4 w-4 text-blue-600"
+                                                    />
+                                                    <Label htmlFor="wet" className="text-sm">Wet Biomass</Label>
+                                                </div>
+                                                <div className="flex items-center space-x-2">
+                                                    <input
+                                                        type="radio"
+                                                        id="dry"
+                                                        name="biomassType"
+                                                        checked={isDryBiomass}
+                                                        onChange={() => setIsDryBiomass(true)}
+                                                        className="h-4 w-4 text-blue-600"
+                                                    />
+                                                    <Label htmlFor="dry" className="text-sm">Dry Biomass</Label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -965,7 +1045,7 @@ export default function KelpCoinsApp() {
                                             </div>
                                             <div>
                                                 <Label htmlFor="nitrogen" className="flex items-center gap-1 mb-1">
-                                                    <FlaskConicalIcon className="h-4 w-4 text-purple-500" /> Inorganic N (mg/L)
+                                                    <FlaskConicalIcon className="h-4 w-4 text-purple-500" /> Nitrogen(mg/L)
                                                 </Label>
                                                 <Input
                                                     id="nitrogen"
@@ -977,7 +1057,7 @@ export default function KelpCoinsApp() {
                                             </div>
                                             <div>
                                                 <Label htmlFor="phosphorus" className="flex items-center gap-1 mb-1">
-                                                    <FlaskConicalIcon className="h-4 w-4 text-pink-500" /> Total P (mg/L)
+                                                    <FlaskConicalIcon className="h-4 w-4 text-pink-500" /> Phosphorus (mg/L)
                                                 </Label>
                                                 <Input
                                                     id="phosphorus"

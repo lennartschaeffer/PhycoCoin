@@ -14,7 +14,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-lg font-semibold mb-4">KelpCoins</h3>
+              <h3 className="text-lg font-semibold mb-4">PhycoCoins</h3>
               <p className="text-gray-300 text-sm">
                 A micro carbon marketplace connecting seaweed farmers with local businesses for verified carbon removal.
               </p>
@@ -24,7 +24,7 @@ export default function Home() {
               <ul className="space-y-2 text-sm">
                 <li>
                   <Link href="/about" className="text-gray-300 hover:text-white">
-                    About KelpCoins
+                    About PhycoCoins
                   </Link>
                 </li>
                 <li>
@@ -64,7 +64,7 @@ export default function Home() {
                   </svg>
                 </Link>
               </div>
-              <p className="mt-4 text-sm text-gray-300">© {new Date().getFullYear()} KelpCoins. All rights reserved.</p>
+              <p className="mt-4 text-sm text-gray-300">© {new Date().getFullYear()} PhycoCoins. All rights reserved.</p>
             </div>
           </div>
         </div>

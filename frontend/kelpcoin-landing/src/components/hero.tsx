@@ -14,9 +14,8 @@ export default function Hero() {
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-800 leading-tight animate-slide-in-left">
               Transforming seaweed farming into a trusted climate solution
             </h1>
-            <p className="text-lg md:text-xl text-gray-600 animate-slide-in-left-delay-1 max-w-2xl mx-auto lg:mx-0">
-              KelpCoins create a micro carbon marketplace where local farmers earn digital tokens for verified CO₂
-              removal.
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-12">
+              A bilateral Nutrient Trading Credit (NTC) platform that enables direct trading between farmers and regulated polluters, with AI-driven validation and market-based pricing.
             </p>
             <div className="animate-slide-in-left-delay-2">
               <Link href="/marketplace">

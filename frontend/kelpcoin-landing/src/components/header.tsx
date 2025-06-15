@@ -7,7 +7,7 @@ export default function Header() {
     <header className="bg-gradient-to-br from-gray-50 to-gray-200 py-4 md:py-5 relative z-50">
       <nav className="max-w-6xl mx-auto flex justify-between items-center px-4 md:px-5">
         <Link href="/" className="text-2xl md:text-5xl font-bold text-slate-800 no-underline">
-          KelpCoins
+          PhycoCoin
         </Link>
 
         <div className="flex items-center space-x-3">
