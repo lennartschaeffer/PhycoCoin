@@ -1,0 +1,73 @@
+.mintSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+}
+
+.mintSectionInner {
+    display: flex;
+    padding: 32px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    border-radius: 24px;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.10) 100%), #0C0C0C;
+    width: 100%;
+}
+
+.mintSectionInner .heading {
+    color: #B490FF;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 36px;
+    width: 100%;
+}
+
+.mintSectionInner .divider {
+    width: 100%;
+    height: 1px;
+    border: none;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.08);
+    margin: 12px 0;
+}
+
+.mintForm {
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.10) 100%), #0C0C0C;
+    border-radius: 24px;
+    width: 100%;
+    margin-top: 24px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mintForm .input {
+    width: 0;
+    flex-grow: 1;
+    font-size: 16px;
+}
+
+.mintForm .btn {
+    width: 60px;
+    height: 24px;
+    border-radius: 12px;
+    background: #B490FF;
+    color: white;
+}
+
+.mintForm .btn:disabled {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.error {
+    margin-top: 12px;
+    color: red;
+    font-size: 14px;
+}
