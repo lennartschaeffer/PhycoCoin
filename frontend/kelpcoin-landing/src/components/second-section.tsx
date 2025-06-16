@@ -1,61 +1,87 @@
 export default function SecondSection() {
   return (
-    <section className="relative bg-gradient-to-br from-slate-800 to-slate-600 py-20 md:py-40 overflow-hidden min-h-[60vh] md:min-h-[80vh]">
-      {/* Kelp Forest Animation - Hidden on small screens, visible on medium+ */}
-      <div className="hidden md:block absolute bottom-0 right-[5%] lg:right-[10%] w-60 lg:w-80 h-72 lg:h-96 pointer-events-none">
-        {[...Array(5)].map((_, i) => (
-          <div
-            key={i}
-            className={`absolute bottom-0 w-8 lg:w-10 bg-gradient-to-t from-green-800 via-green-600 to-green-500 rounded-t-full animate-sway origin-bottom ${i === 0
-              ? "left-0 h-64 lg:h-80 animate-sway-delay-0"
-              : i === 1
-                ? "left-12 lg:left-16 h-56 lg:h-72 animate-sway-delay-1"
-                : i === 2
-                  ? "left-24 lg:left-32 h-72 lg:h-96 animate-sway-delay-2"
-                  : i === 3
-                    ? "left-36 lg:left-48 h-60 lg:h-80 animate-sway-delay-3"
-                    : "left-48 lg:left-64 h-68 lg:h-88 animate-sway-delay-4"
-              }`}
-            style={{
-              borderRadius: "20px 20px 50% 50%",
-            }}
-          >
-            {/* Kelp Leaves */}
-            {[...Array(2)].map((_, leafIndex) => (
-              <div
-                key={leafIndex}
-                className={`absolute w-5 lg:w-6 h-6 lg:h-8 bg-green-600 rounded-full animate-leaf-float ${leafIndex === 0 ? "top-[25%] -left-1" : "top-[55%] -right-1"
-                  }`}
-                style={{
-                  animationDelay: `${leafIndex * 0.5}s`,
-                }}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
-
-      {/* Mobile Kelp Decoration */}
-      <div className="md:hidden absolute bottom-0 right-0 w-full h-32 bg-gradient-to-t from-green-900/20 to-transparent pointer-events-none">
-        <div className="absolute bottom-0 right-4 w-6 h-24 bg-gradient-to-t from-green-800 to-green-600 rounded-t-full animate-sway origin-bottom"></div>
+    <section className="relative bg-gradient-to-br from-slate-800 to-slate-600 py-16 md:py-24 overflow-hidden">
+      {/* Clean geometric background pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-1/4 right-1/4 w-32 h-32 bg-white rounded-full blur-3xl animate-pulse"></div>
         <div
-          className="absolute bottom-0 right-12 w-5 h-20 bg-gradient-to-t from-green-800 to-green-600 rounded-t-full animate-sway origin-bottom"
-          style={{ animationDelay: "-1s" }}
+          className="absolute bottom-1/3 right-1/3 w-24 h-24 bg-green-400 rounded-full blur-2xl animate-pulse"
+          style={{ animationDelay: "1s" }}
         ></div>
         <div
-          className="absolute bottom-0 right-20 w-6 h-28 bg-gradient-to-t from-green-800 to-green-600 rounded-t-full animate-sway origin-bottom"
-          style={{ animationDelay: "-2s" }}
+          className="absolute top-1/2 right-1/6 w-16 h-16 bg-blue-400 rounded-full blur-xl animate-pulse"
+          style={{ animationDelay: "2s" }}
         ></div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 md:px-5 relative z-10 flex items-center min-h-[40vh] md:min-h-[60vh]">
-        <div className="w-full">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 md:mb-8 max-w-full md:max-w-2xl animate-fade-in-up text-center md:text-left leading-tight">
-            A Peer-to-Peer Nutrient Trading Platform
-          </h2>
-          <p className="text-lg md:text-xl text-gray-200 max-w-2xl animate-fade-in-up text-center md:text-left opacity-90">
-            Enabling direct trading between farmers and regulated polluters with AI-driven validation and market-based pricing for nutrient removal credits.
+      {/* Subtle grid pattern overlay */}
+      <div className="absolute inset-0 opacity-5">
+        <div
+          className="w-full h-full"
+          style={{
+            backgroundImage: `
+            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+          `,
+            backgroundSize: "60px 60px",
+          }}
+        ></div>
+      </div>
+
+      {/* Content */}
+      <div className="max-w-6xl mx-auto px-4 md:px-5 relative z-10">
+        <div className="text-center mb-12">
+          <p className="text-lg md:text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed">
+            Connect seaweed farmers and buyers through AI-powered validation and real-time market pricing. Our
+            peer-to-peer platform turns nutrient removal into a liquid, transparent asset.
           </p>
+        </div>
+
+        {/* Key features */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="text-center">
+            <div className="inline-flex items-center justify-center w-12 h-12 bg-green-500/20 rounded-lg mb-4">
+              <svg className="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+            <h3 className="text-white font-semibold mb-3 text-lg">AI-Verified Impact</h3>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              Machine learning ensures every offset is backed by real-world environmental data.
+            </p>
+          </div>
+
+          <div className="text-center">
+            <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-500/20 rounded-lg mb-4">
+              <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+              </svg>
+            </div>
+            <h3 className="text-white font-semibold mb-3 text-lg">Market-Driven Pricing</h3>
+            <p className="text-gray-300 text-sm leading-relaxed">Dynamic value based on live supply and demand.</p>
+          </div>
+
+          <div className="text-center">
+            <div className="inline-flex items-center justify-center w-12 h-12 bg-purple-500/20 rounded-lg mb-4">
+              <svg className="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+            </div>
+            <h3 className="text-white font-semibold mb-3 text-lg">Peer-to-Peer Exchange</h3>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              No middlemen. Just transparent, direct transactions.
+            </p>
+          </div>
         </div>
       </div>
     </section>

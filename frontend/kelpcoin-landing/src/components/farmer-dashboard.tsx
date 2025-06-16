@@ -18,7 +18,7 @@ interface HarvestSubmission {
 export default function FarmerDashboard() {
   // Mock data for harvest submissions
   const [submissions] = useState<HarvestSubmission[]>([
-    { id: "1", date: "04/20/2024", kelpMass: 1200, status: "Pending" },
+    { id: "1", date: "04/20/2024", kelpMass: 1200, status: "Rejected" },
     { id: "2", date: "04/12/2024", kelpMass: 3100, status: "Approved" },
     { id: "3", date: "03/03/2024", kelpMass: 1500, status: "Approved" },
     { id: "4", date: "03/28/2024", kelpMass: 2800, status: "Rejected" },
@@ -87,7 +87,7 @@ export default function FarmerDashboard() {
             <CardContent>
               <div className="space-y-4">
                 <p className="text-gray-600">
-                  Submit your kelp harvest for validation and earn PhycoCoins for verified carbon removal.
+                  Submit your seaweed harvest for validation and earn PhycoCoins for verified nutrient removal.
                 </p>
                 <Link href="/farmer/farmer-submit-harvest">
                   <Button className="w-full bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-md text-lg font-semibold flex items-center justify-center gap-2">
@@ -111,7 +111,7 @@ export default function FarmerDashboard() {
               <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-800 mb-2">
                 {totalPhycoCoins.toLocaleString()} PhycoCoins
               </div>
-              <p className="text-gray-600 text-sm sm:text-base">Earned from verified CO₂ removal</p>
+              <p className="text-gray-600 text-sm sm:text-base">Earned from verified nutrient removal</p>
             </CardContent>
           </Card>
         </div>
@@ -175,7 +175,7 @@ export default function FarmerDashboard() {
             <div>
               <h3 className="text-lg font-semibold mb-4">PhycoCoins</h3>
               <p className="text-gray-300 text-sm">
-                A micro carbon marketplace connecting seaweed farmers with local businesses for verified carbon removal.
+                A micro nutrient marketplace connecting seaweed farmers with local businesses for verified nutrient removal.
               </p>
             </div>
             <div>

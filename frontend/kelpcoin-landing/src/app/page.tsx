@@ -16,7 +16,7 @@ export default function Home() {
             <div>
               <h3 className="text-lg font-semibold mb-4">PhycoCoins</h3>
               <p className="text-gray-300 text-sm">
-                A micro carbon marketplace connecting seaweed farmers with local businesses for verified carbon removal.
+                A micro nutrient marketplace connecting seaweed farmers with local businesses for verified nutrient removal.
               </p>
             </div>
             <div>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -63,77 +63,83 @@ interface SpotlightStory {
   image?: string
 }
 
+interface HarvestData {
+  harvestId: string
+  wetBiomass: number
+  isDryInput: boolean
+  harvestDate: string
+  latitude: number
+  longitude: number
+  sensorData: {
+    water_temperature: number
+    light_PAR: number
+    inorganic_nitrogen: number
+    total_phosphorus: number
+    secchi_depth: number
+  }
+  validationResult: {
+    feasible: boolean
+    q95_chlorophyll: number
+    q95_dry_biomass_lb: number
+    reported_input_biomass_lb: number
+    input_type: string
+    reported_dry_biomass_lb: number
+    ratio: number
+    carbon_lb: number
+    nitrogen_lb: number
+    phosphorus_lb: number
+    value_c_usd: number
+    value_n_usd: number
+    value_p_usd: number
+    total_usd: number
+    nutrientRemovals: {
+      N_kg: number
+      P_kg: number
+      C_kg: number
+    }
+  }
+  submittedAt: string
+}
+
 export default function MarketplaceOverview() {
   const [activeTab, setActiveTab] = useState("feed")
   const [filterRegion, setFilterRegion] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
+  const [harvests, setHarvests] = useState<Harvest[]>([])
+  const [loading, setLoading] = useState(true)
 
-  // Mock data
-  const ecosystemStats = {
-    totalKelpCoinsMinted: 12450,
-    totalCO2Removed: 124500, // kg
-    farmersParticipating: 28,
-    businessesOffsetting: 42,
-  }
+  useEffect(() => {
+    const fetchHarvests = async () => {
+      try {
+        const response = await fetch("/api/harvests")
+        if (!response.ok) throw new Error("Failed to fetch harvests")
+        const data: HarvestData[] = await response.json()
 
-  const harvests: Harvest[] = [
-    {
-      id: "1",
-      farmerName: "Lucas Smith",
-      farmName: "Seaside Kelp Farm",
-      location: "Harborview Bay",
-      date: "2024-06-10",
-      weight: 1800,
-      kelpCoins: 180,
-      co2Removed: 1800,
-      verificationDate: "2024-06-12",
-    },
-    {
-      id: "2",
-      farmerName: "Maria Rodriguez",
-      farmName: "Coastal Harvest Co.",
-      location: "Moonlight Cove",
-      date: "2024-06-09",
-      weight: 2300,
-      kelpCoins: 230,
-      co2Removed: 2300,
-      verificationDate: "2024-06-11",
-    },
-    {
-      id: "3",
-      farmerName: "James Chen",
-      farmName: "Pacific Kelp Gardens",
-      location: "Sunset Point",
-      date: "2024-06-08",
-      weight: 1500,
-      kelpCoins: 150,
-      co2Removed: 1500,
-      verificationDate: "2024-06-10",
-    },
-    {
-      id: "4",
-      farmerName: "Emma Wilson",
-      farmName: "Tidal Gardens",
-      location: "Seabreeze Point",
-      date: "2024-06-05",
-      weight: 2100,
-      kelpCoins: 210,
-      co2Removed: 2100,
-      verificationDate: "2024-06-07",
-    },
-    {
-      id: "5",
-      farmerName: "David Park",
-      farmName: "Kelp Valley Farm",
-      location: "Rocky Shore",
-      date: "2024-06-04",
-      weight: 1900,
-      kelpCoins: 190,
-      co2Removed: 1900,
-      verificationDate: "2024-06-06",
-    },
-  ]
+        // Transform API data to match our display format
+        const transformedHarvests: Harvest[] = data.map((harvest) => ({
+          id: harvest.harvestId,
+          farmerName: "Local Farmer", // Placeholder until we add farmer info
+          farmName: "Local Farm", // Placeholder until we add farm info
+          location: `${harvest.latitude.toFixed(4)}, ${harvest.longitude.toFixed(4)}`,
+          date: harvest.harvestDate,
+          weight: harvest.wetBiomass,
+          kelpCoins: Math.round(harvest.validationResult.total_usd), // Using total USD value as KelpCoins
+          co2Removed: harvest.validationResult.nutrientRemovals.C_kg * 2.2, // Converting kg to lbs
+          verificationDate: harvest.submittedAt,
+        }))
 
+        setHarvests(transformedHarvests)
+      } catch (error) {
+        console.error("Error fetching harvests:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchHarvests()
+  }, [])
+
+  // Mock data for leaderboards (keeping these static for now)
   const topBusinesses: Business[] = [
     {
       id: "1",
@@ -239,14 +245,20 @@ export default function MarketplaceOverview() {
     },
   ]
 
+  // Calculate ecosystem stats from real data
+  const ecosystemStats = {
+    totalKelpCoinsMinted: harvests.reduce((sum, harvest) => sum + harvest.kelpCoins, 0),
+    totalCO2Removed: harvests.reduce((sum, harvest) => sum + harvest.co2Removed, 0),
+    farmersParticipating: new Set(harvests.map((h) => h.farmerName)).size,
+    businessesOffsetting: 42, // Keep static for now
+  }
+
   // Filter harvests based on selected filters and search query
   const filteredHarvests = harvests.filter((harvest) => {
     // Filter by region
     if (filterRegion !== "all" && harvest.location !== filterRegion) {
       return false
     }
-
-    
 
     // Filter by search query
     if (
@@ -261,8 +273,6 @@ export default function MarketplaceOverview() {
     return true
   })
 
-  
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -271,7 +281,7 @@ export default function MarketplaceOverview() {
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
               <Link href="/" className="text-xl sm:text-2xl font-bold text-slate-800 no-underline">
-                KelpCoins
+                PhycoCoins
               </Link>
               <span className="text-sm text-gray-500 hidden sm:inline">Marketplace</span>
             </div>
@@ -296,7 +306,7 @@ export default function MarketplaceOverview() {
       <section className="bg-gradient-to-br from-slate-800 to-slate-700 text-white py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">KelpCoin Marketplace</h1>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">PhycoCoin Marketplace</h1>
             <p className="text-lg sm:text-xl text-gray-200 mb-6">
               A transparent, community-powered carbon marketplace connecting local seaweed farmers with businesses.
             </p>
@@ -308,7 +318,7 @@ export default function MarketplaceOverview() {
               </Link>
               <Link href="/join-farmer">
                 <Button size="lg" variant="outline" className="text-white border-white hover:bg-white/10">
-                  Start Earning KelpCoins
+                  Start Earning PhycoCoins
                 </Button>
               </Link>
             </div>
@@ -327,7 +337,7 @@ export default function MarketplaceOverview() {
               <div className="text-2xl sm:text-3xl font-bold text-slate-800">
                 {ecosystemStats.totalKelpCoinsMinted.toLocaleString()}
               </div>
-              <div className="text-sm text-gray-600">KelpCoins Minted</div>
+              <div className="text-sm text-gray-600">PhycoCoins Minted</div>
             </div>
             <div className="text-center p-4">
               <div className="flex justify-center mb-2">
@@ -384,24 +394,30 @@ export default function MarketplaceOverview() {
                 <div className="flex gap-2">
                   <Select value={filterRegion} onValueChange={setFilterRegion}>
                     <SelectTrigger className="w-full sm:w-40 bg-white border border-gray-300 shadow-sm">
-                        <SelectValue placeholder="Region" />
+                      <SelectValue placeholder="Region" />
                     </SelectTrigger>
                     <SelectContent className="bg-white border border-gray-200 shadow-lg rounded-md">
-                    <SelectItem value="all">All Regions</SelectItem>
-                        <SelectItem value="Harborview Bay">Harborview Bay</SelectItem>
-                        <SelectItem value="Moonlight Cove">Moonlight Cove</SelectItem>
-                        <SelectItem value="Sunset Point">Sunset Point</SelectItem>
-                        <SelectItem value="Seabreeze Point">Seabreeze Point</SelectItem>
-                        <SelectItem value="Rocky Shore">Rocky Shore</SelectItem>
+                      <SelectItem value="all">All Regions</SelectItem>
+                      <SelectItem value="Harborview Bay">Harborview Bay</SelectItem>
+                      <SelectItem value="Moonlight Cove">Moonlight Cove</SelectItem>
+                      <SelectItem value="Sunset Point">Sunset Point</SelectItem>
+                      <SelectItem value="Seabreeze Point">Seabreeze Point</SelectItem>
+                      <SelectItem value="Rocky Shore">Rocky Shore</SelectItem>
                     </SelectContent>
                   </Select>
-
-                  
                 </div>
               </div>
             </div>
 
-            {filteredHarvests.length === 0 ? (
+            {loading ? (
+              <div className="text-center py-12 bg-white rounded-lg border">
+                <div className="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-800"></div>
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-1">Loading harvests...</h3>
+                <p className="text-gray-500">Fetching verified harvest data</p>
+              </div>
+            ) : filteredHarvests.length === 0 ? (
               <div className="text-center py-12 bg-white rounded-lg border">
                 <div className="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                   <Search className="w-8 h-8 text-gray-400" />
@@ -436,15 +452,15 @@ export default function MarketplaceOverview() {
                       <div className="bg-gray-50 rounded-lg p-3 space-y-2">
                         <div className="flex justify-between">
                           <span className="text-sm text-gray-600">Weight:</span>
-                          <span className="font-medium">{harvest.weight.toLocaleString()} kg</span>
+                          <span className="font-medium">{harvest.weight.toLocaleString()} lb</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-sm text-gray-600">KelpCoins:</span>
+                          <span className="text-sm text-gray-600">PhycoCoins:</span>
                           <span className="font-medium text-yellow-600">{harvest.kelpCoins}</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-sm text-gray-600">CO₂ Removed:</span>
-                          <span className="font-medium text-green-600">{harvest.co2Removed.toLocaleString()} kg</span>
+                          <span className="font-medium text-green-600">{harvest.co2Removed.toLocaleString()} lb</span>
                         </div>
                       </div>
 
@@ -452,8 +468,6 @@ export default function MarketplaceOverview() {
                         <CheckCircle className="w-3 h-3 mr-1 text-green-600" />
                         Verified by ML on {new Date(harvest.verificationDate).toLocaleDateString()}
                       </div>
-
-                      
                     </CardContent>
                   </Card>
                 ))}
@@ -487,7 +501,7 @@ export default function MarketplaceOverview() {
                           <div className="flex flex-wrap gap-x-4 text-sm text-gray-600">
                             <span className="flex items-center">
                               <Coins className="w-3 h-3 mr-1 text-yellow-600" />
-                              {business.totalKelpCoins} KelpCoins
+                              {business.totalKelpCoins} PhycoCoins
                             </span>
                             <span className="flex items-center">
                               <Leaf className="w-3 h-3 mr-1 text-green-600" />
@@ -524,7 +538,7 @@ export default function MarketplaceOverview() {
                           <div className="flex flex-wrap gap-x-4 text-sm text-gray-600">
                             <span className="flex items-center">
                               <Coins className="w-3 h-3 mr-1 text-yellow-600" />
-                              {farmer.totalKelpCoins} KelpCoins
+                              {farmer.totalKelpCoins} PhycoCoins
                             </span>
                             <span className="flex items-center">
                               <CheckCircle className="w-3 h-3 mr-1 text-blue-600" />
@@ -557,7 +571,7 @@ export default function MarketplaceOverview() {
                         </div>
                         <span className="flex-1 font-medium text-gray-800">{business.name}</span>
                         <span className="text-sm text-purple-600 font-medium">
-                          {Math.round(business.totalKelpCoins * 0.2)} KelpCoins
+                          {Math.round(business.totalKelpCoins * 0.2)} PhycoCoins
                         </span>
                       </div>
                     ))}
@@ -649,12 +663,12 @@ export default function MarketplaceOverview() {
                   <h3 className="text-xl font-semibold">Featured Success Story</h3>
                 </div>
                 <h4 className="text-2xl font-bold mb-4">
-                  How Ocean Breeze Café Achieved Carbon Neutrality with Local Kelp
+                  How Ocean Breeze Café Achieved Carbon Neutrality with Local seaweed
                 </h4>
                 <p className="text-gray-200 mb-6">
-                  &quot;Working with local kelp farmers through KelpCoins has transformed our business. Not only have we
-                  offset our carbon footprint, but we&apos;ve built meaningful relationships with local producers and seen a
-                  20% increase in customer engagement.&quot;
+                  &quot;Working with local seaweed farmers through PhycoCoins has transformed our business. Not only
+                  have we offset our carbon footprint, but we&apos;ve built meaningful relationships with local
+                  producers and seen a 20% increase in customer engagement.&quot;
                 </p>
                 <div className="flex items-center mb-6">
                   <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-slate-800 font-bold mr-3">
@@ -675,10 +689,10 @@ export default function MarketplaceOverview() {
       {/* CTA Section */}
       <section className="bg-gradient-to-br from-green-50 to-green-100 py-12 sm:py-16 border-t border-green-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-green-800 mb-4">Join the KelpCoin Community</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-green-800 mb-4">Join the PhycoCoin Community</h2>
           <p className="text-lg text-green-700 max-w-2xl mx-auto mb-8">
-            Whether you&apos;re a seaweed farmer or a business looking to offset your carbon footprint, KelpCoins connects
-            you to a sustainable, local carbon marketplace.
+            Whether you&apos;re a seaweed farmer or a business looking to offset your carbon footprint, PhycoCoins
+            connects you to a sustainable, local carbon marketplace.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/join-business">
@@ -702,7 +716,7 @@ export default function MarketplaceOverview() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-lg font-semibold mb-4">KelpCoins</h3>
+              <h3 className="text-lg font-semibold mb-4">PhycoCoins</h3>
               <p className="text-gray-300 text-sm">
                 A micro carbon marketplace connecting seaweed farmers with local businesses for verified carbon removal.
               </p>
@@ -712,7 +726,7 @@ export default function MarketplaceOverview() {
               <ul className="space-y-2 text-sm">
                 <li>
                   <Link href="/about" className="text-gray-300 hover:text-white">
-                    About KelpCoins
+                    About PhycoCoins
                   </Link>
                 </li>
                 <li>
@@ -752,7 +766,9 @@ export default function MarketplaceOverview() {
                   </svg>
                 </Link>
               </div>
-              <p className="mt-4 text-sm text-gray-300">© {new Date().getFullYear()} KelpCoins. All rights reserved.</p>
+              <p className="mt-4 text-sm text-gray-300">
+                © {new Date().getFullYear()} PhycoCoins. All rights reserved.
+              </p>
             </div>
           </div>
         </div>

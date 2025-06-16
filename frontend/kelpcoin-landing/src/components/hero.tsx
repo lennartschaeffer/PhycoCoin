@@ -15,7 +15,8 @@ export default function Hero() {
               Transforming seaweed farming into a trusted climate solution
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-12">
-              A bilateral Nutrient Trading Credit (NTC) platform that enables direct trading between farmers and regulated polluters, with AI-driven validation and market-based pricing.
+              A bilateral Nutrient Trading Credit (NTC) platform that enables direct trading between farmers and
+              regulated polluters, with AI-driven validation and market-based pricing.
             </p>
             <div className="animate-slide-in-left-delay-2">
               <Link href="/marketplace">

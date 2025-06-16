@@ -553,7 +553,7 @@ export default function FarmerSubmitHarvest() {
                   <span className="text-2xl font-bold text-blue-900">Submit Harvest</span>
                 </CardTitle>
                 <CardDescription className="text-gray-600">
-                  Enter your kelp harvest details. Location and environmental data are automatically captured.
+                  Enter your seaweed harvest details. Location and environmental data are automatically captured.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
