@@ -1,0 +1,104 @@
+.header {
+  background-color: rgba(17, 25, 40, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.headerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.logo img {
+  border-radius: 50%;
+}
+
+.navigation {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navLink {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  padding: 0.5rem;
+}
+
+.navLink:hover {
+  color: #85E0A3;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+}
+
+.walletInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.walletAddress {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.875rem;
+}
+
+.connectButton {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(180deg, #85E0A3 0%, #67C384 100%);
+  border: none;
+  border-radius: 6px;
+  color: #111111;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.connectButton:hover {
+  background: linear-gradient(180deg, #93E5AD 0%, #75CE91 100%);
+}
+
+.disconnectButton {
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.disconnectButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+}

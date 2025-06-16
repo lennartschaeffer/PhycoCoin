@@ -44,3 +44,32 @@
 .btnContainer {
     margin-top: 48px;
 }
+
+.farmerPortal {
+  margin-top: 2rem;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1.5rem;
+}
+
+.farmerPortal p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.farmerLink {
+  display: inline-block;
+  color: #85E0A3;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background-color: rgba(133, 224, 163, 0.1);
+}
+
+.farmerLink:hover {
+  background-color: rgba(133, 224, 163, 0.2);
+  transform: translateY(-2px);
+}
