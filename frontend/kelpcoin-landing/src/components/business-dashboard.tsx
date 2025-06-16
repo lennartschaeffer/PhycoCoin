@@ -24,6 +24,7 @@ import { useRouter } from "next/navigation";
 import QRCode from "react-qr-code";
 
 interface HarvestData {
+  walletAddress?: string; // Optional, can be added later
   harvestId: string;
   farmerName: string;
   farmName: string;
@@ -64,6 +65,7 @@ interface HarvestData {
 }
 
 interface Harvest {
+  walletAddress?: string; // Optional for now, can be added later
   id: string;
   farmerName: string;
   farmName: string;
@@ -150,6 +152,7 @@ export default function BusinessDashboard() {
 
         // Transform API data to match our display format
         const transformedHarvests: Harvest[] = data.map((harvest) => ({
+          walletAddress: harvest.walletAddress, // Optional, can be added later
           id: harvest.harvestId,
           farmerName: harvest.farmerName, // Placeholder until we add farmer info
           farmName: harvest.farmName, // Placeholder until we add farm info
@@ -422,7 +425,10 @@ export default function BusinessDashboard() {
                           className="flex-1 bg-slate-800 hover:bg-slate-700 text-white w-100"
                           onClick={() => {
                             router.push(
-                              "http://localhost:3000?total=" + harvest.total_usd
+                              "http://localhost:3000?walletAddress=" +
+                                harvest.walletAddress +
+                                "&buyAmount=" +
+                                harvest.kelpCoins
                             );
                           }}
                         >

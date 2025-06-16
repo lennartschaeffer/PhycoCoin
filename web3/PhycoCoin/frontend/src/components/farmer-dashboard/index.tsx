@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { useSmartContract } from '@/hooks/useSmartContract';
-import { PhycoCoin } from '@phyco-types/PhycoCoin';
-import { formatEther } from 'ethers';
-import styles from './styles.module.css';
+import { useEffect, useState } from "react";
+import { useSmartContract } from "@/hooks/useSmartContract";
+import { PhycoCoin } from "@phyco-types/PhycoCoin";
+import { formatEther } from "ethers";
+import styles from "./styles.module.css";
 
 interface FarmerDashboardProps {
   walletAddress: string;
@@ -18,15 +18,17 @@ interface FarmerStats {
   };
 }
 
-export default function FarmerDashboard({ walletAddress }: FarmerDashboardProps) {
+export default function FarmerDashboard({
+  walletAddress,
+}: FarmerDashboardProps) {
   const { getSmartContract } = useSmartContract();
   const [stats, setStats] = useState<FarmerStats>({
-    balance: '0',
+    balance: "0",
     harvests: 0,
     environmentalImpact: {
-      carbon: '0',
-      nitrogen: '0',
-      phosphorus: '0',
+      carbon: "0",
+      nitrogen: "0",
+      phosphorus: "0",
     },
   });
   const [isLoading, setIsLoading] = useState(true);
@@ -34,31 +36,31 @@ export default function FarmerDashboard({ walletAddress }: FarmerDashboardProps)
   useEffect(() => {
     const fetchFarmerStats = async () => {
       if (!walletAddress) return;
-      
+
       try {
         setIsLoading(true);
         const phycoCoinContract = getSmartContract<PhycoCoin>("PHYCOCOIN");
-        
+
         if (phycoCoinContract) {
           // Get wallet balance
           const balance = await phycoCoinContract.balanceOf(walletAddress);
-          
+
           // Fetch all the farmer's harvests and environmental impact
           // This is a placeholder - you would need to implement this logic based on your contract
           // For now, we'll use dummy data
-          
+
           setStats({
             balance: formatEther(balance),
             harvests: 5, // Dummy data
             environmentalImpact: {
-              carbon: '125.5',
-              nitrogen: '9.8',
-              phosphorus: '1.2',
+              carbon: "125.5",
+              nitrogen: "9.8",
+              phosphorus: "1.2",
             },
           });
         }
       } catch (error) {
-        console.error('Error fetching farmer stats:', error);
+        console.error("Error fetching farmer stats:", error);
       } finally {
         setIsLoading(false);
       }
@@ -83,11 +85,15 @@ export default function FarmerDashboard({ walletAddress }: FarmerDashboardProps)
           <div className={styles.cardIcon}>💰</div>
           <div className={styles.cardContent}>
             <h3>PhycoCoin Balance</h3>
-            <p className={styles.value}>{parseFloat(stats.balance).toFixed(2)} PHYC</p>
-            <p className={styles.subtext}>Current Value: ${(parseFloat(stats.balance) * 1.0).toFixed(2)} USD</p>
+            <p className={styles.value}>
+              {parseFloat(stats.balance).toFixed(2)} PHYC
+            </p>
+            <p className={styles.subtext}>
+              Current Value: ${(parseFloat(stats.balance) * 1.0).toFixed(2)} USD
+            </p>
           </div>
         </div>
-        
+
         <div className={styles.card}>
           <div className={styles.cardIcon}>🌱</div>
           <div className={styles.cardContent}>
@@ -119,15 +125,16 @@ export default function FarmerDashboard({ walletAddress }: FarmerDashboardProps)
       <div className={styles.actions}>
         <h2>Actions</h2>
         <div className={styles.actionButtons}>
-          <button className={styles.actionButton}>
+          <button
+            className={styles.actionButton}
+            onClick={() =>
+              (window.location.href = `/farmer-harvest-receipt?walletAddress=${walletAddress}&totalCoinsMinted=10.0`)
+            }
+          >
             Record New Harvest
           </button>
-          <button className={styles.actionButton}>
-            Trade PhycoCoins
-          </button>
-          <button className={styles.actionButton}>
-            View Certificates
-          </button>
+          <button className={styles.actionButton}>Trade PhycoCoins</button>
+          <button className={styles.actionButton}>View Certificates</button>
         </div>
       </div>
     </div>

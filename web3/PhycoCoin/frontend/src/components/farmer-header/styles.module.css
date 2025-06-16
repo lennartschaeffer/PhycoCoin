@@ -49,7 +49,7 @@
 }
 
 .navLink:hover {
-  color: #85E0A3;
+  color: #85e0a3;
 }
 
 .rightSection {
@@ -74,7 +74,7 @@
 
 .connectButton {
   padding: 0.5rem 1rem;
-  background: linear-gradient(180deg, #85E0A3 0%, #67C384 100%);
+  background: linear-gradient(180deg, #85e0a3 0%, #67c384 100%);
   border: none;
   border-radius: 6px;
   color: #111111;
@@ -84,7 +84,7 @@
 }
 
 .connectButton:hover {
-  background: linear-gradient(180deg, #93E5AD 0%, #75CE91 100%);
+  background: linear-gradient(180deg, #93e5ad 0%, #75ce91 100%);
 }
 
 .disconnectButton {

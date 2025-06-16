@@ -468,11 +468,20 @@ export default function FarmerSubmitHarvest() {
 
       const result = await response.json();
       toast.success("Harvest submitted successfully!");
+      const totalCoinsMinted = validationResult.total_usd;
 
-      // Redirect to farmer page after a short delay to show the success message
-      setTimeout(() => {
-        router.push("http://localhost:3000");
-      }, 1500);
+      router.push(
+        "http://localhost:3000/farmer-harvest-receipt?walletAddress=" +
+          walletAddress +
+          "&totalCoinsMinted=" +
+          totalCoinsMinted +
+          "&carbon_lb=" +
+          validationResult.carbon_lb +
+          "&nitrogen_lb=" +
+          validationResult.nitrogen_lb +
+          "&phosphorus_lb=" +
+          validationResult.phosphorus_lb
+      );
     } catch (error: any) {
       console.error("Failed to submit harvest:", error);
       toast.error(
@@ -836,6 +845,26 @@ export default function FarmerSubmitHarvest() {
                         )}
                       </>
                     )}
+                  {validationResult?.feasible && photoVerified && (
+                    <>
+                      <div className="w-full">
+                        <Button
+                          className="mt-8 w-full text-lg font-semibold bg-green-600 hover:bg-green-700 text-white rounded-lg shadow-md transition-colors"
+                          onClick={handleSubmitHarvest}
+                          disabled={isSubmittingHarvest}
+                        >
+                          {isSubmittingHarvest ? (
+                            <>
+                              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                              Submitting...
+                            </>
+                          ) : (
+                            "Submit Harvest"
+                          )}
+                        </Button>
+                      </div>
+                    </>
+                  )}
                 </CardContent>
               </Card>
             )}
@@ -843,22 +872,6 @@ export default function FarmerSubmitHarvest() {
         </div>
 
         {/* Submit Harvest Button - Conditionally Rendered */}
-        {validationResult?.feasible && photoVerified && (
-          <Button
-            className="mt-8 px-6 py-3 text-lg font-semibold bg-green-600 hover:bg-green-700 text-white rounded-lg shadow-md transition-colors"
-            onClick={handleSubmitHarvest}
-            disabled={isSubmittingHarvest}
-          >
-            {isSubmittingHarvest ? (
-              <>
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                Submitting...
-              </>
-            ) : (
-              "Submit Harvest"
-            )}
-          </Button>
-        )}
       </div>
     </div>
   );

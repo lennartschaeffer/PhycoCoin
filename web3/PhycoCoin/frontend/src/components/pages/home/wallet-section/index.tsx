@@ -25,12 +25,12 @@ export default function WalletSection() {
       <div className={styles.btnContainer}>
         <ConnectButton />
       </div>
-      
+
       {/** Farmer portal link */}
       <div className={styles.farmerPortal}>
         <p>Are you a seaweed farmer?</p>
         <Link href="/farmer-connect" className={styles.farmerLink}>
-          Go to Farmer Portal →
+          Back to Marketplace →
         </Link>
       </div>
     </div>

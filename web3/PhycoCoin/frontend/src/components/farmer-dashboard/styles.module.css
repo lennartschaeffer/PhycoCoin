@@ -43,7 +43,7 @@
   font-size: 1.5rem;
   font-weight: bold;
   margin: 0.5rem 0;
-  color: #85E0A3;
+  color: #85e0a3;
 }
 
 .subtext {
@@ -60,7 +60,7 @@
 }
 
 .environmentalImpact h2 {
-  color: #85E0A3;
+  color: #85e0a3;
   font-size: 1.25rem;
   margin-top: 0;
   margin-bottom: 1rem;
@@ -92,7 +92,7 @@
 }
 
 .actions h2 {
-  color: #85E0A3;
+  color: #85e0a3;
   font-size: 1.25rem;
   margin-top: 0;
   margin-bottom: 1rem;
@@ -106,17 +106,25 @@
 
 .actionButton {
   padding: 1rem;
-  background: linear-gradient(180deg, rgba(133, 224, 163, 0.2) 0%, rgba(103, 195, 132, 0.2) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(133, 224, 163, 0.2) 0%,
+    rgba(103, 195, 132, 0.2) 100%
+  );
   border: 1px solid rgba(133, 224, 163, 0.3);
   border-radius: 8px;
-  color: #85E0A3;
+  color: #85e0a3;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .actionButton:hover {
-  background: linear-gradient(180deg, rgba(133, 224, 163, 0.3) 0%, rgba(103, 195, 132, 0.3) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(133, 224, 163, 0.3) 0%,
+    rgba(103, 195, 132, 0.3) 100%
+  );
   transform: translateY(-2px);
 }
 
@@ -133,13 +141,17 @@
   width: 40px;
   height: 40px;
   border: 4px solid rgba(255, 255, 255, 0.1);
-  border-top: 4px solid #85E0A3;
+  border-top: 4px solid #85e0a3;
   border-radius: 50%;
   margin-bottom: 1rem;
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

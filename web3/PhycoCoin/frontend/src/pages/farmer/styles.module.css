@@ -30,7 +30,7 @@
 .connectButton {
   padding: 0.75rem 1.5rem;
   margin-top: 1.5rem;
-  background: linear-gradient(180deg, #85E0A3 0%, #67C384 100%);
+  background: linear-gradient(180deg, #85e0a3 0%, #67c384 100%);
   border: none;
   border-radius: 8px;
   color: #111111;
@@ -40,7 +40,7 @@
 }
 
 .connectButton:hover {
-  background: linear-gradient(180deg, #93E5AD 0%, #75CE91 100%);
+  background: linear-gradient(180deg, #93e5ad 0%, #75ce91 100%);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

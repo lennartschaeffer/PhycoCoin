@@ -13,16 +13,6 @@ export default function FarmerConnectPage() {
   } = useWallet();
   const [isRedirecting, setIsRedirecting] = useState(false);
 
-  useEffect(() => {
-    // If wallet is connected, redirect to the farmer page
-    if (walletConnectionStatus === "connected" && walletAddress) {
-      setIsRedirecting(true);
-      router.push(
-        `http://localhost:3001/farmer?walletAddress=${walletAddress}`
-      );
-    }
-  }, [walletAddress, walletConnectionStatus, router]);
-
   const handleConnectWallet = async () => {
     showConnectDialog();
   };
@@ -30,42 +20,53 @@ export default function FarmerConnectPage() {
   return (
     <div className={styles.connectPageContainer}>
       <div className={styles.contentBox}>
-        <h1>Seaweed Farmer Portal</h1>
-        <p>
-          Connect your wallet to access your dashboard, record harvests, and
-          view your PhycoCoin earnings from nutrient trading credits.
-        </p>
+        <h1>PhycoCoin Farmer Portal</h1>
 
-        <button
-          className={styles.connectButton}
-          onClick={handleConnectWallet}
-          disabled={walletConnectionStatus === "connecting" || isRedirecting}
-        >
-          {isRedirecting
-            ? "Redirecting..."
-            : walletConnectionStatus === "connecting"
-            ? "Connecting..."
-            : "Connect Wallet"}
-        </button>
+        {walletConnectionStatus !== "connected" && (
+          <>
+            <p>
+              Connect your wallet to access your dashboard, record harvests, and
+              view your PhycoCoin earnings from nutrient trading credits.
+            </p>
+            <button
+              className={styles.connectButton}
+              onClick={handleConnectWallet}
+              disabled={
+                walletConnectionStatus === "connecting" || isRedirecting
+              }
+            >
+              Connect Your Wallet
+            </button>
+            <div className={styles.infoSection}>
+              <h2>Why connect your wallet?</h2>
+              <ul>
+                <li>Record and verify your seaweed harvests</li>
+                <li>Earn PhycoCoins based on nutrient removal</li>
+                <li>Track your environmental impact</li>
+                <li>Participate in the nutrient credit marketplace</li>
+              </ul>
+            </div>
+          </>
+        )}
 
         {walletConnectionStatus === "connected" && walletAddress && (
           <div className={styles.walletInfo}>
             <p>
-              Connected: {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+              Farmer Connected: {walletAddress.slice(0, 6)}...
+              {walletAddress.slice(-4)}
             </p>
-            <p>Network: {chainCurrent?.name || "Unknown"}</p>
+            <button
+              className={styles.connectButton}
+              onClick={() =>
+                router.push(
+                  `http://localhost:3001/farmer?walletAddress=${walletAddress}`
+                )
+              }
+            >
+              Proceed to Farmer Dashboard
+            </button>
           </div>
         )}
-
-        <div className={styles.infoSection}>
-          <h2>Why connect your wallet?</h2>
-          <ul>
-            <li>Record and verify your seaweed harvests</li>
-            <li>Earn PhycoCoins based on nutrient removal</li>
-            <li>Track your environmental impact</li>
-            <li>Participate in the nutrient credit marketplace</li>
-          </ul>
-        </div>
       </div>
     </div>
   );
