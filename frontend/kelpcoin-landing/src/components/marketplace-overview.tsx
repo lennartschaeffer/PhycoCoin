@@ -65,6 +65,8 @@ interface SpotlightStory {
 
 interface HarvestData {
   harvestId: string
+  farmerName: string
+  farmName: string
   wetBiomass: number
   isDryInput: boolean
   harvestDate: string
@@ -118,8 +120,8 @@ export default function MarketplaceOverview() {
         // Transform API data to match our display format
         const transformedHarvests: Harvest[] = data.map((harvest) => ({
           id: harvest.harvestId,
-          farmerName: "Local Farmer", // Placeholder until we add farmer info
-          farmName: "Local Farm", // Placeholder until we add farm info
+          farmerName: harvest.farmerName, // Placeholder until we add farmer info
+          farmName: harvest.farmName, // Placeholder until we add farm info
           location: `${harvest.latitude.toFixed(4)}, ${harvest.longitude.toFixed(4)}`,
           date: harvest.harvestDate,
           weight: harvest.wetBiomass,

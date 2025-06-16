@@ -58,14 +58,6 @@ interface ValidationResult {
   }
 }
 
-interface MintResult {
-  totalCoins: number
-  breakdown: {
-    nitrogen: number
-    phosphorus: number
-    carbon: number
-  }
-}
 
 interface Listing {
   id: string
@@ -141,28 +133,6 @@ function HarvestPhotoCapture({
     }
   }, [isCodeValid, onPhotoVerified])
 
-  // Submit photo
-  const handleSubmit = async () => {
-    if (!photo || !code) return
-    setSubmitting(true)
-    setError("")
-    const formData = new FormData()
-    formData.append("photo", photo)
-    formData.append("harvestId", harvestId)
-    formData.append("code", code)
-    try {
-      const res = await fetch("/api/submitHarvestPhoto", {
-        method: "POST",
-        body: formData,
-      })
-      if (!res.ok) throw new Error("Failed to submit photo")
-      onPhotoVerified()
-    } catch (err: any) {
-      setError(err.message || "Failed to submit photo.")
-    }
-    setSubmitting(false)
-  }
-
   return (
     <div className="my-8">
       <Toaster />
@@ -236,7 +206,6 @@ export default function FarmerSubmitHarvest() {
   // Flow state
   const [sensorData, setSensorData] = useState<SensorData | null>(null)
   const [validationResult, setValidationResult] = useState<ValidationResult | null>(null)
-  const [mintResult, setMintResult] = useState<MintResult | null>(null)
   const [listings, setListings] = useState<Listing[]>([
     {
       id: "1",
@@ -258,7 +227,6 @@ export default function FarmerSubmitHarvest() {
   const [fetchingLocation, setFetchingLocation] = useState(false)
   const [fetchingSensors, setFetchingSensors] = useState(false)
   const [validating, setValidating] = useState(false)
-  const [minting, setMinting] = useState(false)
   const [initializing, setInitializing] = useState(true)
 
   // Modal state
@@ -404,44 +372,7 @@ export default function FarmerSubmitHarvest() {
     }
   }
 
-  const mintCoins = async () => {
-    setMinting(true)
-    try {
-      const response = await fetch("/api/mintCoins", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ harvestId }),
-      })
-      const data = await response.json()
-      setMintResult(data)
-      toast("KelpCoins minted!", {
-        description: `You've minted ${data.totalCoins} KelpCoins`,
-      })
-    } catch (error) {
-      toast.error("Failed to mint coins")
-    } finally {
-      setMinting(false)
-    }
-  }
-
-  const listForSale = () => {
-    if (!mintResult || !reservePrice) return
-
-    const newListing: Listing = {
-      id: Date.now().toString(),
-      farmer: "You",
-      harvestId,
-      coinsAvailable: mintResult.totalCoins,
-      pricePerCoin: Number.parseFloat(reservePrice),
-    }
-
-    setListings([newListing, ...listings])
-    setShowListingModal(false)
-    setReservePrice("")
-    toast("Listed for sale", {
-      description: `${mintResult.totalCoins} KelpCoins listed at $${reservePrice} each`,
-    })
-  }
+  
 
   // New function to handle harvest submission
   const handleSubmitHarvest = async () => {
@@ -648,79 +579,7 @@ export default function FarmerSubmitHarvest() {
               </CardContent>
             </Card>
 
-            {/* Mint Result */}
-            {mintResult && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <Coins className="h-5 w-5 text-green-600" />
-                    <span>KelpCoins Minted!</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center p-6 bg-green-50 rounded-lg border border-green-200">
-                    <div className="text-3xl font-bold text-green-600 mb-2">{mintResult.totalCoins} KelpCoins</div>
-                    <p className="text-green-700 mb-4">Successfully minted from your harvest!</p>
-
-                    <div className="grid grid-cols-3 gap-4 mb-4">
-                      <div className="text-center">
-                        <div className="text-lg font-semibold text-blue-600">{mintResult.breakdown.nitrogen}</div>
-                        <div className="text-xs text-gray-600">from Nitrogen</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-lg font-semibold text-green-600">{mintResult.breakdown.phosphorus}</div>
-                        <div className="text-xs text-gray-600">from Phosphorus</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-lg font-semibold text-gray-600">{mintResult.breakdown.carbon}</div>
-                        <div className="text-xs text-gray-600">from Carbon</div>
-                      </div>
-                    </div>
-
-                    <Dialog open={showListingModal} onOpenChange={setShowListingModal}>
-                      <DialogTrigger asChild>
-                        <Button size="lg" className="w-full">
-                          List for Sale
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>List KelpCoins for Sale</DialogTitle>
-                          <DialogDescription>
-                            Set your reserve price per KelpCoin to list them on the marketplace
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <div>
-                            <Label htmlFor="reservePrice">Reserve Price per Coin ($)</Label>
-                            <Input
-                              id="reservePrice"
-                              type="number"
-                              step="0.01"
-                              value={reservePrice}
-                              onChange={(e) => setReservePrice(e.target.value)}
-                              placeholder="e.g., 2.50"
-                            />
-                          </div>
-                          <div className="flex justify-between text-sm text-gray-600">
-                            <span>Total coins: {mintResult.totalCoins}</span>
-                            <span>
-                              Total value: $
-                              {reservePrice
-                                ? (mintResult.totalCoins * Number.parseFloat(reservePrice)).toFixed(2)
-                                : "0.00"}
-                            </span>
-                          </div>
-                          <Button onClick={listForSale} className="w-full" disabled={!reservePrice}>
-                            List for Sale
-                          </Button>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+            
           </div>
 
           {/* Right Column - Environmental Data and Validation */}
@@ -839,17 +698,6 @@ export default function FarmerSubmitHarvest() {
                           onPhotoVerified={() => setPhotoVerified(true)}
                           onPhotoTaken={(file) => setUploadedPhoto(file)}
                         />
-                      )}
-                      {/* Only show Mint button if photo is verified */}
-                      {photoVerified && (
-                        <Button onClick={mintCoins} disabled={minting} className="w-full mt-4" size="lg">
-                          {minting ? (
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          ) : (
-                            <Coins className="mr-2 h-4 w-4" />
-                          )}
-                          Mint KelpCoins
-                        </Button>
                       )}
                     </>
                   )}
