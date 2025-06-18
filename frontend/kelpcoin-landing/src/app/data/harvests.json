@@ -123,12 +123,14 @@
     "submittedAt": "2025-06-16T01:29:37.182Z"
   },
   {
+    "walletAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
     "harvestId": "02ae3947-b582-4da7-b3fe-0b17f4072882",
     "farmerName": "Sophia Lee",
+    "status": "Approved",
     "farmName": "Mariner's Harvest",
-    "wetBiomass": 4547,
+    "wetBiomass": 400,
     "isDryInput": false,
-    "harvestDate": "2025-06-18",
+    "harvestDate": "2025-05-18",
     "latitude": 46.057674,
     "longitude": -64.789122,
     "sensorData": {
@@ -164,44 +166,46 @@
     "submittedAt": "2025-06-16T01:29:37.182Z"
   },
   {
-    "harvestId": "98631800-310a-42d1-837c-d1253004555f",
-    "farmerName": "Noah Harris",
-    "farmName": "OceanRoot Farms",
-    "wetBiomass": 4077,
+    "walletAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "harvestId": "1875b76b-ac30-4a2c-bb0c-44aa255252c7",
+    "farmerName": "Lucas Smith",
+    "farmName": "GreenCurrent Seaweed",
+    "wetBiomass": 2500,
     "isDryInput": false,
-    "harvestDate": "2025-06-19",
-    "latitude": 46.058232,
-    "longitude": -64.789018,
+    "harvestDate": "2025-06-17",
+    "latitude": 46.058692,
+    "longitude": -64.78927,
     "sensorData": {
-      "water_temperature": 18.8,
-      "light_PAR": 389,
-      "inorganic_nitrogen": 1.44,
-      "total_phosphorus": 0.13,
-      "secchi_depth": 6.4
+      "water_temperature": 18.5,
+      "light_PAR": 350,
+      "inorganic_nitrogen": 1.2,
+      "total_phosphorus": 0.15,
+      "secchi_depth": 6.5
     },
     "validationResult": {
-      "carbon_lb": 134.54,
+      "carbon_lb": 82.5,
       "feasible": true,
       "input_type": "fresh",
-      "nitrogen_lb": 10.27,
-      "phosphorus_lb": 1.22,
-      "q95_chlorophyll": 316.65,
-      "q95_dry_biomass_lb": 2321.46,
-      "ratio": 0.1,
-      "reported_dry_biomass_lb": 407.7,
-      "reported_input_biomass_lb": 4077,
-      "total_usd": 85.13,
-      "value_c_usd": 17.49,
-      "value_n_usd": 52.77,
-      "value_p_usd": 14.87,
+      "nitrogen_lb": 6.25,
+      "phosphorus_lb": 0.75,
+      "q95_chlorophyll": 291.88469213310253,
+      "q95_dry_biomass_lb": 5837.69384266205,
+      "ratio": 0.04282513039190102,
+      "reported_dry_biomass_lb": 250,
+      "reported_input_biomass_lb": 2500,
+      "total_usd": 50.837500000000006,
+      "value_c_usd": 10.725,
+      "value_n_usd": 31.75,
+      "value_p_usd": 8.3625,
       "isValid": true,
-      "message": "✅ Plausible harvest! Your reported biomass is 17.6% of the maximum expected biomass.",
+      "message": "✅ Plausible harvest!",
       "nutrientRemovals": {
-        "N_kg": 4.6587,
-        "P_kg": 0.5534,
-        "C_kg": 61.0114
+        "N_kg": 2.83495,
+        "P_kg": 0.340194,
+        "C_kg": 37.42134
       }
     },
-    "submittedAt": "2025-06-16T01:29:37.182Z"
+    "status": "Approved",
+    "submittedAt": "2025-06-17T15:49:37.532Z"
   }
 ]

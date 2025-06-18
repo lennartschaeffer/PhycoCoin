@@ -1,46 +1,75 @@
 .connectWallet {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .logo {
-    width: 100px;
+  width: 100px;
 }
 
 .heading {
-    margin-top: 42px;
-    display: flex;
-    align-items: center;
+  margin-top: 42px;
+  display: flex;
+  align-items: center;
 }
 
 .heading .indicator {
-    border-radius: 50%;
-    background-color: #0BAA60;
-    outline: 4px solid #0BAA6033;
-    width: 12px;
-    height: 12px;
+  border-radius: 50%;
+  background-color: #0baa60;
+  outline: 4px solid #0baa6033;
+  width: 12px;
+  height: 12px;
 }
 
 .heading .text {
-    margin-left: 8px;
-    width: 0;
-    flex-grow: 1;
-    color: #110C22;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 40px;
+  margin-left: 8px;
+  width: 0;
+  flex-grow: 1;
+  color: #110c22;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px;
 }
 
 .subheading {
-    color: #8D8A95;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 28px;
-    margin-top: 8px;
+  color: #8d8a95;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+  margin-top: 8px;
 }
 
 .btnContainer {
-    margin-top: 48px;
+  margin-top: 48px;
+}
+
+.farmerPortal {
+  margin-top: 2rem;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1.5rem;
+}
+
+.farmerPortal p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.farmerLink {
+  display: inline-block;
+  color: #85e0a3;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background-color: rgba(133, 224, 163, 0.1);
+}
+
+.farmerLink:hover {
+  background-color: rgba(133, 224, 163, 0.2);
+  transform: translateY(-2px);
 }
