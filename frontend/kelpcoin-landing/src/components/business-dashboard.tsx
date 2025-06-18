@@ -181,7 +181,7 @@ export default function BusinessDashboard() {
   }, []);
 
   // Generate QR code URL for the business impact page
-  const impactPageUrl = `${window.location.origin}/impact/${businessInfo.id}`;
+  const impactPageUrl = "`${window.location.origin}/impact/${businessInfo.id}`";
 
   // Function to download QR code as PNG
   const downloadQRCode = () => {

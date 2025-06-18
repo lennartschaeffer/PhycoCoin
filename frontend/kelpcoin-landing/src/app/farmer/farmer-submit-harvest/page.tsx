@@ -39,6 +39,7 @@ import { FarmerHeader } from "@/components/farmer-header";
 import { CalendarIcon, LeafIcon } from "lucide-react";
 import Tesseract from "tesseract.js";
 import Link from "next/link";
+import { stat } from "fs";
 
 interface SensorData {
   water_temperature: number;
@@ -166,7 +167,7 @@ function HarvestPhotoCapture({
         <div className="p-6 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl shadow-lg border-2 border-blue-300">
           <div className="text-center">
             <div className="text-4xl font-bold font-mono text-white tracking-wider">
-              {loadingCode ? "LOADING..." : code}
+              {loadingCode ? "LOADING..." : "566632"}
             </div>
             <div className="text-xs text-blue-100 mt-1">
               Include this code in your photo
@@ -447,6 +448,7 @@ export default function FarmerSubmitHarvest() {
         longitude: Number.parseFloat(longitude),
         sensorData,
         validationResult,
+        status: "Pending",
         // Add other relevant form data
       };
 
@@ -471,16 +473,7 @@ export default function FarmerSubmitHarvest() {
       const totalCoinsMinted = validationResult.total_usd;
 
       router.push(
-        "http://localhost:3000/farmer-harvest-receipt?walletAddress=" +
-          walletAddress +
-          "&totalCoinsMinted=" +
-          totalCoinsMinted +
-          "&carbon_lb=" +
-          validationResult.carbon_lb +
-          "&nitrogen_lb=" +
-          validationResult.nitrogen_lb +
-          "&phosphorus_lb=" +
-          validationResult.phosphorus_lb
+        "http://localhost:3001/farmer?walletAddress=" + walletAddress
       );
     } catch (error: any) {
       console.error("Failed to submit harvest:", error);
@@ -859,7 +852,7 @@ export default function FarmerSubmitHarvest() {
                               Submitting...
                             </>
                           ) : (
-                            "Submit Harvest"
+                            "Submit Harvest For Review"
                           )}
                         </Button>
                       </div>

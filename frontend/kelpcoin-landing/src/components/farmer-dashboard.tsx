@@ -9,6 +9,7 @@ import { LogOut, Coins, Plus, TrendingUp, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import harvests from "@/app/data/harvests.json";
 
 interface HarvestSubmission {
   id: string;
@@ -29,15 +30,22 @@ export default function FarmerDashboard() {
     }
   }, [walletAddress]);
 
-  // Mock data for harvest submissions
-  const [submissions] = useState<HarvestSubmission[]>([
-    { id: "1", date: "04/20/2024", kelpMass: 1200, status: "Rejected" },
-    { id: "2", date: "04/12/2024", kelpMass: 3100, status: "Approved" },
-    { id: "3", date: "03/03/2024", kelpMass: 1500, status: "Approved" },
-    { id: "4", date: "03/28/2024", kelpMass: 2800, status: "Rejected" },
-  ]);
+  // Filter harvests for this farmer and sort by most recent date
+  const filteredHarvests = harvests
+    .filter(
+      (h) =>
+        h.walletAddress &&
+        walletAddress &&
+        h.walletAddress.toLowerCase() === walletAddress.toLowerCase()
+    )
+    .sort((a, b) => {
+      // Sort descending by harvestDate (most recent first)
+      return (
+        new Date(b.harvestDate).getTime() - new Date(a.harvestDate).getTime()
+      );
+    });
 
-  const totalPhycoCoins = 1845;
+  const totalPhycoCoins = 102;
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -187,7 +195,6 @@ export default function FarmerDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {/* Desktop Table */}
             <div className="hidden sm:block overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -201,55 +208,87 @@ export default function FarmerDashboard() {
                     <th className="text-left py-3 px-4 font-semibold text-gray-700">
                       Status
                     </th>
+                    <th className="text-left py-3 px-4 font-semibold text-gray-700">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {submissions.map((submission) => (
+                  {filteredHarvests.map((h) => (
                     <tr
-                      key={submission.id}
+                      key={h.harvestId}
                       className="border-b border-gray-100 hover:bg-gray-50"
                     >
                       <td className="py-4 px-4 text-gray-900">
-                        {submission.date}
+                        {h.harvestDate}
                       </td>
                       <td className="py-4 px-4 text-gray-900">
-                        {submission.kelpMass.toLocaleString()} kg
+                        {h.wetBiomass?.toLocaleString()} kg
                       </td>
                       <td className="py-4 px-4">
-                        <Badge className={getStatusColor(submission.status)}>
-                          {submission.status}
+                        <Badge
+                          className={getStatusColor(h.status || "Pending")}
+                        >
+                          {h.status || "Pending"}
                         </Badge>
+                      </td>
+                      <td className="py-4 px-4">
+                        <Link
+                          href={`http://localhost:3000/farmer-harvest-receipt?walletAddress=${
+                            h.walletAddress
+                          }&totalCoinsMinted=${h.validationResult.total_usd.toFixed(
+                            2
+                          )}&carbon_lb=${
+                            h.validationResult.carbon_lb
+                          }&nitrogen_lb=${
+                            h.validationResult.nitrogen_lb
+                          }&phosphorus_lb=${h.validationResult.phosphorus_lb}
+                        )}`}
+                        >
+                          <Button
+                            disabled={h.status === "Pending"}
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                          >
+                            Receive Tokens
+                          </Button>
+                        </Link>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-
             {/* Mobile Cards */}
             <div className="sm:hidden space-y-4">
-              {submissions.map((submission) => (
+              {filteredHarvests.map((h) => (
                 <div
-                  key={submission.id}
+                  key={h.harvestId}
                   className="bg-white border border-gray-200 rounded-lg p-4"
                 >
                   <div className="flex justify-between items-start mb-2">
                     <div className="text-sm font-medium text-gray-900">
-                      {submission.date}
+                      {h.harvestDate}
                     </div>
-                    <Badge className={getStatusColor(submission.status)}>
-                      {submission.status}
+                    <Badge className={getStatusColor(h.status || "Pending")}>
+                      {h.status || "Pending"}
                     </Badge>
                   </div>
                   <div className="text-lg font-semibold text-gray-900">
-                    {submission.kelpMass.toLocaleString()} kg
+                    {h.wetBiomass?.toLocaleString()} kg
                   </div>
-                  <div className="text-sm text-gray-500">Kelp Mass</div>
+                  <div className="mt-3">
+                    <Link
+                      href={`/farmer/farmer-submit-harvest?walletAddress=${walletAddress}`}
+                    >
+                      <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                        Receive Tokens
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               ))}
             </div>
-
-            {submissions.length === 0 && (
+            {filteredHarvests.length === 0 && (
               <div className="text-center py-8 text-gray-500">
                 No harvest submissions yet. Submit your first harvest above!
               </div>
