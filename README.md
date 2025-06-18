@@ -1,6 +1,6 @@
 # PhycoCoin
 
-PhycoCoin is a blockchain-based platform for rewarding seaweed farmers for verified nutrient removal. It connects farmers with local businesses and enables transparent, tokenized incentives for environmental impact.
+PhycoCoin is an AI & blockchain-based platform for rewarding seaweed farmers for verified nutrient removal. It connects farmers with local businesses and enables transparent, tokenized incentives for environmental impact.
 
 ## Features
 
