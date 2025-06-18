@@ -1,0 +1,315 @@
+.receiptPageContainer {
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  color: black;
+}
+
+.mainContent {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.unauthorizedContainer {
+  background-color: white;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.confirmationContainer {
+  background-color: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: #000;
+}
+
+.confirmationDetails {
+  margin: 2rem 0;
+}
+
+.detailsCard {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.detailRow:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.highlightValue {
+  color: #0c7c59;
+  font-weight: 600;
+}
+
+.mintButton {
+  width: 100%;
+  background-color: #0c7c59;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.mintButton:hover {
+  background-color: #0a664a;
+}
+
+.mintButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.note {
+  margin-top: 1rem;
+  color: #666;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.processingContainer {
+  background-color: white;
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #0c7c59;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 2rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.successContainer {
+  background-color: white;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.successIcon {
+  font-size: 64px;
+  margin-bottom: 1rem;
+}
+
+.receiptCard {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  max-width: 600px;
+  margin: 2rem auto;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.receiptHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.receiptTitle {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.receiptId {
+  color: #666;
+  margin: 0.5rem 0 0 0;
+}
+
+.receiptDate {
+  text-align: right;
+}
+
+.receiptDate p {
+  margin: 0 0 0.25rem 0;
+}
+
+.receiptDivider {
+  border-top: 1px dashed #ccc;
+  margin: 1rem 0;
+}
+
+.receiptBody {
+  margin-bottom: 1.5rem;
+}
+
+.receiptRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.hash {
+  font-family: monospace;
+}
+
+.environmentalImpactSection {
+  margin-top: 1rem;
+}
+
+.environmentalImpactSection h4 {
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.impactGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  text-align: center;
+}
+
+.impactItem {
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f9f7;
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+.impactItem span:first-child {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.impactItem span:last-child {
+  font-weight: bold;
+  color: #0c7c59;
+}
+
+.receiptFooter {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.primaryButton,
+.secondaryButton,
+.retryButton {
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.primaryButton {
+  background-color: #0c7c59;
+  color: white;
+}
+
+.primaryButton:hover {
+  background-color: #0a664a;
+}
+
+.secondaryButton {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.secondaryButton:hover {
+  background-color: #d0d0d0;
+}
+
+.retryButton {
+  background-color: #ffa726;
+  color: white;
+}
+
+.retryButton:hover {
+  background-color: #fb8c00;
+}
+
+.errorContainer {
+  background-color: white;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.errorIcon {
+  font-size: 64px;
+  margin-bottom: 1rem;
+  color: #f44336;
+}
+
+.errorMessage {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 1rem;
+  border-radius: 6px;
+  margin: 1.5rem 0;
+  font-family: monospace;
+}
+
+@media print {
+  .receiptPageContainer header,
+  .buttonGroup {
+    display: none;
+  }
+
+  .receiptCard {
+    box-shadow: none;
+    border: 1px solid #000;
+    margin: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .impactGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+  }
+}

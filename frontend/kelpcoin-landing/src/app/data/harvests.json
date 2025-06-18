@@ -1,0 +1,211 @@
+[
+  {
+    "harvestId": "7daaf45c-2f50-4748-951b-161ead544223",
+    "farmerName": "Liam Anderson",
+    "farmName": "Bayline Sea Farms",
+    "wetBiomass": 10218,
+    "isDryInput": false,
+    "harvestDate": "2025-06-15",
+    "latitude": 46.058805,
+    "longitude": -64.789071,
+    "sensorData": {
+      "water_temperature": 17.4,
+      "light_PAR": 379,
+      "inorganic_nitrogen": 1.3,
+      "total_phosphorus": 0.18,
+      "secchi_depth": 6.8
+    },
+    "validationResult": {
+      "carbon_lb": 337.19,
+      "feasible": true,
+      "input_type": "fresh",
+      "nitrogen_lb": 25.55,
+      "phosphorus_lb": 3.07,
+      "q95_chlorophyll": 298.57,
+      "q95_dry_biomass_lb": 5337.12,
+      "ratio": 0.1,
+      "reported_dry_biomass_lb": 1021.8,
+      "reported_input_biomass_lb": 10218,
+      "total_usd": 212.89,
+      "value_c_usd": 43.83,
+      "value_n_usd": 129.79,
+      "value_p_usd": 39.27,
+      "isValid": true,
+      "message": "✅ Plausible harvest! Your reported biomass is 19.1% of the maximum expected biomass.",
+      "nutrientRemovals": {
+        "N_kg": 11.5922,
+        "P_kg": 1.3938,
+        "C_kg": 152.9795
+      }
+    },
+    "submittedAt": "2025-06-16T01:29:37.181Z"
+  },
+  {
+    "harvestId": "8230a14d-8d66-4a35-9015-8c0e61bdb713",
+    "farmerName": "Olivia Thompson",
+    "farmName": "TideRise Kelp Co.",
+    "wetBiomass": 5964,
+    "isDryInput": false,
+    "harvestDate": "2025-06-16",
+    "latitude": 46.057623,
+    "longitude": -64.789788,
+    "sensorData": {
+      "water_temperature": 17.1,
+      "light_PAR": 338,
+      "inorganic_nitrogen": 1.48,
+      "total_phosphorus": 0.12,
+      "secchi_depth": 5.9
+    },
+    "validationResult": {
+      "carbon_lb": 196.81,
+      "feasible": true,
+      "input_type": "fresh",
+      "nitrogen_lb": 14.9,
+      "phosphorus_lb": 1.79,
+      "q95_chlorophyll": 302.67,
+      "q95_dry_biomass_lb": 3269.98,
+      "ratio": 0.1,
+      "reported_dry_biomass_lb": 596.4,
+      "reported_input_biomass_lb": 5964,
+      "total_usd": 124.12,
+      "value_c_usd": 25.59,
+      "value_n_usd": 75.69,
+      "value_p_usd": 22.84,
+      "isValid": true,
+      "message": "✅ Plausible harvest! Your reported biomass is 18.2% of the maximum expected biomass.",
+      "nutrientRemovals": {
+        "N_kg": 6.7595,
+        "P_kg": 0.8126,
+        "C_kg": 89.2817
+      }
+    },
+    "submittedAt": "2025-06-16T01:29:37.182Z"
+  },
+  {
+    "harvestId": "7d0cad53-d2e7-450d-8702-ea697d090cff",
+    "farmerName": "Ethan Martinez",
+    "farmName": "GreenCurrent Seaweed",
+    "wetBiomass": 11224,
+    "isDryInput": false,
+    "harvestDate": "2025-06-17",
+    "latitude": 46.05958,
+    "longitude": -64.78812,
+    "sensorData": {
+      "water_temperature": 16.2,
+      "light_PAR": 331,
+      "inorganic_nitrogen": 1.19,
+      "total_phosphorus": 0.1,
+      "secchi_depth": 5.7
+    },
+    "validationResult": {
+      "carbon_lb": 370.39,
+      "feasible": true,
+      "input_type": "fresh",
+      "nitrogen_lb": 28.1,
+      "phosphorus_lb": 3.37,
+      "q95_chlorophyll": 308.92,
+      "q95_dry_biomass_lb": 6147.38,
+      "ratio": 0.1,
+      "reported_dry_biomass_lb": 1122.4,
+      "reported_input_biomass_lb": 11224,
+      "total_usd": 233.35,
+      "value_c_usd": 48.15,
+      "value_n_usd": 142.75,
+      "value_p_usd": 42.45,
+      "isValid": true,
+      "message": "✅ Plausible harvest! Your reported biomass is 18.3% of the maximum expected biomass.",
+      "nutrientRemovals": {
+        "N_kg": 12.7473,
+        "P_kg": 1.5281,
+        "C_kg": 168.0167
+      }
+    },
+    "submittedAt": "2025-06-16T01:29:37.182Z"
+  },
+  {
+    "walletAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "harvestId": "02ae3947-b582-4da7-b3fe-0b17f4072882",
+    "farmerName": "Sophia Lee",
+    "status": "Approved",
+    "farmName": "Mariner's Harvest",
+    "wetBiomass": 400,
+    "isDryInput": false,
+    "harvestDate": "2025-05-18",
+    "latitude": 46.057674,
+    "longitude": -64.789122,
+    "sensorData": {
+      "water_temperature": 16.2,
+      "light_PAR": 440,
+      "inorganic_nitrogen": 1.36,
+      "total_phosphorus": 0.15,
+      "secchi_depth": 6.3
+    },
+    "validationResult": {
+      "carbon_lb": 150.05,
+      "feasible": true,
+      "input_type": "fresh",
+      "nitrogen_lb": 11.36,
+      "phosphorus_lb": 1.36,
+      "q95_chlorophyll": 284.78,
+      "q95_dry_biomass_lb": 2493.49,
+      "ratio": 0.1,
+      "reported_dry_biomass_lb": 454.7,
+      "reported_input_biomass_lb": 4547,
+      "total_usd": 95.64,
+      "value_c_usd": 19.51,
+      "value_n_usd": 57.72,
+      "value_p_usd": 18.41,
+      "isValid": true,
+      "message": "✅ Plausible harvest! Your reported biomass is 18.2% of the maximum expected biomass.",
+      "nutrientRemovals": {
+        "N_kg": 5.1523,
+        "P_kg": 0.6179,
+        "C_kg": 68.0632
+      }
+    },
+    "submittedAt": "2025-06-16T01:29:37.182Z"
+  },
+  {
+    "walletAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "harvestId": "1875b76b-ac30-4a2c-bb0c-44aa255252c7",
+    "farmerName": "Lucas Smith",
+    "farmName": "GreenCurrent Seaweed",
+    "wetBiomass": 2500,
+    "isDryInput": false,
+    "harvestDate": "2025-06-17",
+    "latitude": 46.058692,
+    "longitude": -64.78927,
+    "sensorData": {
+      "water_temperature": 18.5,
+      "light_PAR": 350,
+      "inorganic_nitrogen": 1.2,
+      "total_phosphorus": 0.15,
+      "secchi_depth": 6.5
+    },
+    "validationResult": {
+      "carbon_lb": 82.5,
+      "feasible": true,
+      "input_type": "fresh",
+      "nitrogen_lb": 6.25,
+      "phosphorus_lb": 0.75,
+      "q95_chlorophyll": 291.88469213310253,
+      "q95_dry_biomass_lb": 5837.69384266205,
+      "ratio": 0.04282513039190102,
+      "reported_dry_biomass_lb": 250,
+      "reported_input_biomass_lb": 2500,
+      "total_usd": 50.837500000000006,
+      "value_c_usd": 10.725,
+      "value_n_usd": 31.75,
+      "value_p_usd": 8.3625,
+      "isValid": true,
+      "message": "✅ Plausible harvest!",
+      "nutrientRemovals": {
+        "N_kg": 2.83495,
+        "P_kg": 0.340194,
+        "C_kg": 37.42134
+      }
+    },
+    "status": "Approved",
+    "submittedAt": "2025-06-17T15:49:37.532Z"
+  }
+]
