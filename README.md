@@ -4,10 +4,9 @@ PhycoCoin is a blockchain-based platform for rewarding seaweed farmers for verif
 
 ## Features
 
-- ### Model & Data
-- `quantile_regressor_model.pkl`: Trained regression model for biomass validation
-- Constants and logic are shared with the smart contract for transparency
-- ## Backend (Flask API)
+- **Model & Data**
+- `quantile_regressor_model.pkl`: AI Model to validate biomass claims using sensor data and environmental context (light, water temperature, nutrients), then calculate nutrient offsets using real market values. 
+- **Backend** (Flask API)
 - The backend provides machine learning-powered validation and valuation of seaweed harvests. It exposes a REST API for the frontend to submit harvest data and receive validation, nutrient removal, and credit calculations.
 - **Smart Contract (Solidity):**
   - ERC20 token (PHYC) for nutrient removal credits
